@@ -6,6 +6,8 @@ using AnimeMarathon.Data.Data;
 using AnimeMarathon.Data.Repository;
 using AnimeMarathon.Data.Repository.Base;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,8 +18,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<AnimeMarathonContext>(c =>
-c.UseInMemoryDatabase("AnimeMarathonConnection"));
+//builder.Services.AddDbContext<AnimeMarathonContext>(c =>
+//c.UseInMemoryDatabase("AnimeMarathonConnection"));+builder.Services.AddDbContext<AnimeMarathonContext>(options =>
+builder.Services.AddDbContext<AnimeMarathonContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AnimeMarathonConnection")));
+
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IAnimeRepository, AnimeRepository>();
