@@ -8,14 +8,12 @@ using System.Threading.Tasks;
 
 namespace AnimeMarahon.Core.Entities
 {
-    [Table("UsuariosAnimes")]
-    public class UsersAnimes : BaseEntity
+    [Table("AnimesCategorias")]
+    public class AnimeCategory : BaseEntity
     {
+        [ForeignKey("CategoryId")]
+        public int CategoryId { get; set; }
         [ForeignKey("AnimeId")]
         public int AnimeId { get; set; }
-        [ForeignKey("UsuarioId")]
-        public int UserId { get; set; }
-        [Column("Estado")]
-        public string? Status { get; set; }
     }
 }

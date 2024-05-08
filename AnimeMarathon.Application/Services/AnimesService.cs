@@ -26,10 +26,20 @@ namespace AnimeMarathon.Application.Services
             return newEntity;
         }
 
-        public async Task Delete(Anime anime)
+       /* public async Task Delete(Anime anime)
         {
             ValidateAnimeIfNotExist(anime);
             var deletedAnime = await animeRepository.GetByIdAsync(anime.Id);
+            if (deletedAnime == null)
+                throw new ApplicationException($"Entity could not be loaded.");
+
+            await animeRepository.DeleteAsync(deletedAnime);
+        }*/
+
+        public async Task Delete(int animeId)
+        {
+            //ValidateAnimeIfNotExist(anime);
+            var deletedAnime = await animeRepository.GetByIdAsync(animeId);
             if (deletedAnime == null)
                 throw new ApplicationException($"Entity could not be loaded.");
 
@@ -68,6 +78,10 @@ namespace AnimeMarathon.Application.Services
             editAnime.Description = anime.Description; 
             editAnime.Title = anime.Title;
             editAnime.AverageRating = anime.AverageRating;
+            editAnime.Status = anime.Status;
+            editAnime.AgeRating = anime.AgeRating;
+            editAnime.Subtype = anime.Subtype;
+            editAnime.TotalEpisodes= anime.TotalEpisodes;
            // editAnime.GenreId = anime.GenreId;
 
             await animeRepository.UpdateAsync(editAnime);

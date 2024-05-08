@@ -1,16 +1,11 @@
-﻿using AnimeMarahon.Core.Entities.Base;
-using System;
-using System.Collections.Generic;
+﻿using AnimeMarahon.Core.Entities;
+using AnimeMarathonV1.DTOs.NewFolder;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AnimeMarahon.Core.Entities
+namespace AnimeMarathonV1.DTOs
 {
-    [Table("AnimesGeneros")]
-    public class AnimeGenre : BaseEntity
+    public class AnimeGenreDTO : BaseDTO
     {
         [Key]
         [Column(Order = 1)]
@@ -21,9 +16,8 @@ namespace AnimeMarahon.Core.Entities
         [ForeignKey("AnimeId")]
         public int AnimeId { get; set; }
 
-        //// Agrega propiedades de navegación si es necesario
+        // Agrega propiedades de navegación si es necesario
         //public virtual Anime Anime { get; set; }
         //public virtual Genre Genre { get; set; }
-
     }
 }

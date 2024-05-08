@@ -11,4 +11,19 @@ namespace AnimeMarathonV1.Mapper
             CreateMap<AnimeDTO,Anime>().ReverseMap();
         }
     }
+  
+    public class CategoryMapperProfiles : Profile
+    {
+        public CategoryMapperProfiles()
+        {
+            CreateMap<CategoryDTO, Category>().ReverseMap();
+        }
+    }
+    public class AnimeCategoryMapperProfiles : Profile
+    {
+        public AnimeCategoryMapperProfiles()
+        {
+            CreateMap<AnimeCategoryDTO, AnimeCategory>().ReverseMap();
+        }
+    }
 }

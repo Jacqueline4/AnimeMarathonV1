@@ -1,7 +1,9 @@
 using AnimeMarahon.Core.Repositories;
 using AnimeMarahon.Core.Repositories.Base;
 using AnimeMarathon.Application.Interfaces;
+using AnimeMarathon.Application.Interfaces.Base;
 using AnimeMarathon.Application.Services;
+using AnimeMarathon.Application.Services.Base;
 using AnimeMarathon.Data.Data;
 using AnimeMarathon.Data.Repository;
 using AnimeMarathon.Data.Repository.Base;
@@ -18,16 +20,21 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Services.AddDbContext<AnimeMarathonContext>(c =>
-//c.UseInMemoryDatabase("AnimeMarathonConnection"));+builder.Services.AddDbContext<AnimeMarathonContext>(options =>
 builder.Services.AddDbContext<AnimeMarathonContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AnimeMarathonConnection")));
 
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IAnimeRepository, AnimeRepository>();
+builder.Services.AddScoped<IAnimeGenreRepository, AnimeGenreRepository>();
+builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
+builder.Services.AddScoped(typeof(IBaseServices<>), typeof(BaseServices<>));
+builder.Services.AddScoped<IAnimeGenreService, AnimeGenreService>();
 builder.Services.AddScoped<IAnimeService,AnimesService>();
+builder.Services.AddScoped<IGenreService, GenreService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();

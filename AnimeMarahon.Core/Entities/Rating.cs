@@ -13,6 +13,10 @@ namespace AnimeMarahon.Core.Entities
     {
         [Column("Valoracion_media_propia")]
         public decimal? AverageRatingSelf { get; set; }
+        [ForeignKey("AnimeId")]
+        public int AnimeId { get; set; }
+        [Column("UsuarioId")]
+        public int UserId { get; set; }
 
     }
 }

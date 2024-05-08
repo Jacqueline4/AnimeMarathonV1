@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnimeMarathon.Data", "Anime
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnimeMarathon.Application", "AnimeMarathon.Application\AnimeMarathon.Application.csproj", "{E695C3B2-A63A-462B-91AD-78DE1EDDAF01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimeMarathon.Web", "AnimeMarathon.Web\AnimeMarathon.Web.csproj", "{F70637CB-AF02-44AF-BA48-69A7567B3F0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnimeMarathon.Web", "AnimeMarathon.Web\AnimeMarathon.Web.csproj", "{F70637CB-AF02-44AF-BA48-69A7567B3F0B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

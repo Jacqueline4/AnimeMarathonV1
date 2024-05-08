@@ -65,13 +65,13 @@ namespace AnimeMarathonV1.Controllers
         }
 
         [HttpDelete]
-        public async Task DeleteAnime(AnimeDTO animeViewModel)
+        public async Task DeleteAnime(int animeId)
         {
-            var mapped = mapper.Map<Anime>(animeViewModel);
-            if (mapped == null)
-                throw new Exception($"Entity could not be mapped.");
+            //var mapped = mapper.Map<Anime>(animeViewModel);
+            //if (mapped == null)
+            //    throw new Exception($"Entity could not be mapped.");
 
-            await animeService.Delete(mapped);
+            await animeService.Delete(animeId);
         }
     }
 }

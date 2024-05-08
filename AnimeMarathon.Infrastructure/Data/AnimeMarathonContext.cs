@@ -19,8 +19,15 @@ namespace AnimeMarathon.Data.Data
         public Microsoft.EntityFrameworkCore.DbSet<Rating> Ratings { get; set; }
         public Microsoft.EntityFrameworkCore.DbSet<UsersRatings> UsersRatings { get; set; }
         public Microsoft.EntityFrameworkCore.DbSet<AnimeGenre> AnimeGenre { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<AnimeGenre>()
+                .HasKey(ag => new { ag.AnimeId, ag.GeneroId });
+        }
         public Microsoft.EntityFrameworkCore.DbSet<UsersComments> UsersComments { get; set; }
         public Microsoft.EntityFrameworkCore.DbSet<UsersAnimes> UsersAnimes { get; set; }
+        public Microsoft.EntityFrameworkCore.DbSet<AnimeCategory> AnimeCategories { get; set; }
+        public Microsoft.EntityFrameworkCore.DbSet<Category> Categories { get; set; }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{

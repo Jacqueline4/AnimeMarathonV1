@@ -7,8 +7,12 @@ namespace AnimeMarathonV1.DTOs
     {
         [Column("Nombre")]
         public string Title { get; set; }
+        [Column("Estado_emision")]
+        public string Status { get; set; }
         [Column("Subtipo")]
-        public string Suptype { get; set; }
+        public string Subtype { get; set; }
+        [Column("AgeRating")]
+        public string AgeRating { get; set; }
         [Column("Valoracion_media")]
         public decimal? AverageRating { get; set; }
         [Column("Fecha_publicacion")]

@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace AnimeMarahon.Core.Entities
 {
-    [Table("Generos")]
-    public class Genre : BaseEntity
+    [Table("Categorias")]
+    public class Category : BaseEntity
     {
         [Column("Nombre")]
         public string? Name { get; set; }

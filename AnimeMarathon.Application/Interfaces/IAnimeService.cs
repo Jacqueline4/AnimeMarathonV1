@@ -14,6 +14,7 @@ namespace AnimeMarathon.Application.Interfaces
         Task<IEnumerable<Anime>> GetAnimeByName(string anime);
         Task<Anime> Create(Anime anime);
         Task Update(Anime anime);
-        Task Delete(Anime anime);
+        //Task Delete(Anime anime);
+        Task Delete (int animeId);
     }
 }
