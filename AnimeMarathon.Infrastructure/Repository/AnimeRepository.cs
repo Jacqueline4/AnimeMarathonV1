@@ -58,7 +58,7 @@ namespace AnimeMarathon.Data.Repository
                 return new List<Anime>();
             }
             var animeIds = await dbContext.AnimeCategories
-                                          .Where(ac => ac.CategoryId == category.Id)
+                                          .Where(ac => ac.CategoriaId == category.Id)
                                           .Select(ac => ac.AnimeId)
                                           .ToListAsync();
 
@@ -85,7 +85,7 @@ namespace AnimeMarathon.Data.Repository
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Anime>> GetAnimeByUserAsync(int id)
+        public async Task<IEnumerable<Anime>> GetAnimeByUserAsync(int userId)
         {
             //var category = await dbContext.Users.FirstOrDefaultAsync(g => g.Id.Equals(id));
             //if (category == null)
@@ -93,12 +93,12 @@ namespace AnimeMarathon.Data.Repository
             //    return new List<Anime>();
             //}
             var animeIds = await dbContext.UsersAnimes
-                                          .Where(ac => ac.UserId == id)
+                                          .Where(ac => ac.UsuarioId == userId)
                                           .Select(ac => ac.AnimeId)
                                           .ToListAsync();
 
             return await dbContext.Animes
-                                    .Where(a => animeIds.Equals(a.Id))
+                                    .Where(a => animeIds.Contains(a.Id))
                                     .ToListAsync();
         }
 

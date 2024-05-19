@@ -3,7 +3,7 @@ using AnimeMarathon.Application.Interfaces;
 using AnimeMarathon.Application.Interfaces.Base;
 using AnimeMarathon.Application.Services;
 using AnimeMarathon.Application.Services.Base;
-using AnimeMarathonV1.DTOs;
+using AnimeMarathon.Application.Services.DTOs;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,11 +14,18 @@ namespace AnimeMarathonV1.Controllers
     public class AnimeCategoryController : ControllerBase
     {
         private readonly IMapper mapper;
-        private readonly IBaseServices<AnimeCategory> baseServices ;
-        public AnimeCategoryController(IMapper mapper, IBaseServices<AnimeCategory> baseServices)
+        private readonly IBaseServices<AnimeCategoryDTO,AnimeCategory> baseServices ;
+        public AnimeCategoryController(IMapper mapper, IBaseServices<AnimeCategoryDTO,AnimeCategory> baseServices)
         {
             this.mapper = mapper;
             this.baseServices= baseServices;
+        }
+        [HttpGet]
+        public async Task<IEnumerable<AnimeCategoryDTO>> Get()
+        {
+            var list = await baseServices.GetList();
+            var mapped = mapper.Map<IEnumerable<AnimeCategoryDTO>>(list);
+            return mapped;
         }
 
         [HttpPost]
@@ -28,7 +35,7 @@ namespace AnimeMarathonV1.Controllers
             if (mapped == null)
                 throw new Exception($"Entity could not be mapped.");
 
-            var entityDto = await baseServices.Create(mapped);
+            var entityDto = await baseServices.Create(ViewModel);
 
             var mappedViewModel = mapper.Map<AnimeCategoryDTO>(entityDto);
             return mappedViewModel;

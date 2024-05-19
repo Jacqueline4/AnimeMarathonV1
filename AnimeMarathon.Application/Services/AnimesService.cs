@@ -1,32 +1,38 @@
 ﻿using AnimeMarahon.Core.Entities;
 using AnimeMarahon.Core.Repositories;
 using AnimeMarathon.Application.Interfaces;
+using AnimeMarathon.Application.Services.DTOs;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace AnimeMarathon.Application.Services
 {
     public class AnimesService : IAnimeService
     {
         private readonly IAnimeRepository animeRepository;
+        private readonly IMapper _mapper;
 
-        public AnimesService(IAnimeRepository animeRepository)
+        public AnimesService(IAnimeRepository animeRepository, IMapper mapper)
         {
             this.animeRepository = animeRepository;
+            _mapper = mapper;
         }
 
-        public async Task<Anime> Create(Anime anime)
+        public async Task<AnimeDTO> Create(AnimeDTO animeDto)
         {
-            await ValidateAnimeIfExist(anime);
-
+            await ValidateAnimeIfExist(animeDto);
+            var anime = _mapper.Map<Anime>(animeDto);
             var newEntity = await animeRepository.AddAsync(anime);
-            return newEntity;
+            var newEntityDto = _mapper.Map<AnimeDTO>(newEntity);
+            return newEntityDto;
         }
 
-       /* public async Task Delete(Anime anime)
+       /* public async Task Delete(AnimeDTO anime)
         {
             ValidateAnimeIfNotExist(anime);
             var deletedAnime = await animeRepository.GetByIdAsync(anime.Id);
@@ -46,25 +52,39 @@ namespace AnimeMarathon.Application.Services
             await animeRepository.DeleteAsync(deletedAnime);
         }
 
-        public async Task<Anime> GetAnimeById(int animeId)
+        public async Task<AnimeDTO> GetAnimeById(int animeId)
         {
             var anime = await animeRepository.GetByIdAsync(animeId);
-            return anime;
+            return _mapper.Map<AnimeDTO>(anime); ;
         }
 
-        public async Task<IEnumerable<Anime>> GetAnimeByName(string animeName)
+        public async Task<IEnumerable<AnimeDTO>> GetAnimeByName(string animeName)
         {
             var animeList = await animeRepository.GetAnimeByNameAsync(animeName);
-            return animeList;
+            return _mapper.Map<IEnumerable<AnimeDTO>>(animeList);
         }
 
-        public async Task<IEnumerable<Anime>> GetAnimeList()
+        public async Task<IEnumerable<AnimeDTO>> GetAnimeByUser(int userId)
+        {
+            try
+            { 
+                var animeList = await animeRepository.GetAnimeByUserAsync(userId);
+                return _mapper.Map<List<AnimeDTO>>(animeList.ToList());
+            }
+            catch(Exception ex)
+            {
+               return  Enumerable.Empty<AnimeDTO>();
+
+            }
+        }
+
+        public async Task<IEnumerable<AnimeDTO>> GetAnimeList()
         {
             var animeList = await animeRepository.GetAllAsync();
-            return animeList;
+            return _mapper.Map<IEnumerable<AnimeDTO>>(animeList);
         }
 
-        public async Task Update(Anime anime)
+        public async Task Update(AnimeDTO anime)
         {
             ValidateAnimeIfNotExist(anime);
 
@@ -87,14 +107,14 @@ namespace AnimeMarathon.Application.Services
             await animeRepository.UpdateAsync(editAnime);
         }
 
-        private async Task ValidateAnimeIfExist(Anime anime)
+        private async Task ValidateAnimeIfExist(AnimeDTO anime)
         {
             var existingEntity = await animeRepository.GetByIdAsync(anime.Id);
             if (existingEntity != null)
                 throw new ApplicationException($"{anime.ToString()} with this id already exists");
         }
 
-        private void ValidateAnimeIfNotExist(Anime anime)
+        private void ValidateAnimeIfNotExist(AnimeDTO anime)
         {
             var existingEntity = animeRepository.GetByIdAsync(anime.Id);
             if (existingEntity == null)

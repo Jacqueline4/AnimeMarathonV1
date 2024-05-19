@@ -1,4 +1,6 @@
-﻿using AnimeMarahon.Core.Entities.Base;
+﻿using AnimeMarahon.Core.Entities;
+using AnimeMarahon.Core.Entities.Base;
+using AnimeMarathon.Application.Services.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +9,13 @@ using System.Threading.Tasks;
 
 namespace AnimeMarathon.Application.Interfaces.Base
 {
-    public interface IBaseServices<T> where T : BaseEntity
+    public interface IBaseServices<TDto, TEntity>
+        where TDto : BaseDTO
+        where TEntity : BaseEntity
+
     {
-        Task<T> Create(T entity);
+        Task<TDto> Create(TDto entity);
+        Task<IEnumerable<TDto>> GetList();
         Task Delete(int id);
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace AnimeMarahon.Core.Entities
 {
     [Table("Categorias")]
-    public class Category : BaseEntity
+    public class Category: BaseEntity
     {
         [Column("Nombre")]
         public string? Name { get; set; }

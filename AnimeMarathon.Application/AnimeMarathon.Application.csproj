@@ -5,7 +5,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+	
 
+	<ItemGroup>
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+	</ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AnimeMarahon.Core\AnimeMarahon.Core.csproj" />
   </ItemGroup>

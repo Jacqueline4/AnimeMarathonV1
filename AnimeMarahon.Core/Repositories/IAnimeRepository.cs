@@ -17,7 +17,7 @@ namespace AnimeMarahon.Core.Repositories
         Task<IEnumerable<Anime>> GetAnimeByAgeRatingAsync(string ageRating);
         Task<IEnumerable<Anime>> GetAnimeByStatusAsync(string status);
         Task<IEnumerable<Anime>> GetAnimeBySubtypeAsync(string subtype);
-        Task<IEnumerable<Anime>> GetAnimeByUserAsync(int id);
+        Task<IEnumerable<Anime>> GetAnimeByUserAsync(int userId);
 
     }
 }

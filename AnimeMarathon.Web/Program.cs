@@ -1,7 +1,13 @@
+using AnimeMarathon.Web.Pages;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddHttpClient<UserMenuModel>(); // Registrar HttpClient para UserMenuModel
+
+//// Register IHttpClientFactory -- se añade para que la pagina index redireccione a Login
+//builder.Services.AddHttpClient();
 
 var app = builder.Build();
 

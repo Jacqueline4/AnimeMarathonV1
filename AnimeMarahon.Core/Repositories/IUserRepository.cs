@@ -8,7 +8,11 @@ using System.Threading.Tasks;
 
 namespace AnimeMarahon.Core.Repositories
 {
-    public interface IAnimeGenreRepository : IRepository<AnimeGenre>
-        {
-        }
+    public interface IUserRepository : IRepository<User>
+    {
+        Task<User> GetUserLoginAsync(string username, string password);
+
+        Task<User> GetUserByNameAsync(string username);
+
+    }
 }

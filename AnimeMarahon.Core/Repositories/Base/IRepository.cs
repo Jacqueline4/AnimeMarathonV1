@@ -1,4 +1,5 @@
 ﻿using AnimeMarahon.Core.Entities.Base;
+using AnimeMarahon.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

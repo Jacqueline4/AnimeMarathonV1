@@ -1,6 +1,6 @@
 ﻿using AnimeMarahon.Core.Entities;
 using AnimeMarathon.Application.Interfaces;
-using AnimeMarathonV1.DTOs;
+using AnimeMarathon.Application.Services.DTOs;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,7 +43,7 @@ namespace AnimeMarathonV1.Controllers
         [HttpPost]
         public async Task<CategoryDTO> CreateGenre(CategoryDTO categoryViewModel)
         {
-            var mapped = mapper.Map<Category>(categoryViewModel);
+            var mapped = mapper.Map<CategoryDTO>(categoryViewModel);
             if (mapped == null)
                 throw new Exception($"Entity could not be mapped.");
 
@@ -56,7 +56,7 @@ namespace AnimeMarathonV1.Controllers
         [HttpPut]
         public async Task UpdateCategory(CategoryDTO categoryViewModel)
         {
-            var mapped = mapper.Map<Category>(categoryViewModel);
+            var mapped = mapper.Map<CategoryDTO>(categoryViewModel);
             if (mapped == null)
                 throw new Exception($"Entity could not be mapped.");
 

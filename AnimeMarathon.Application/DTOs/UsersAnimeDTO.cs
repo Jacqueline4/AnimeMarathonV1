@@ -1,15 +1,9 @@
-﻿using AnimeMarahon.Core.Entities.Base;
-using System;
-using System.Collections.Generic;
+﻿
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AnimeMarahon.Core.Entities
+namespace AnimeMarathon.Application.Services.DTOs
 {
-    [Table("UsuariosAnimes")]
-    public class UsersAnimes : BaseEntity
+    public class UsersAnimeDTO : BaseDTO
     {
         [ForeignKey("AnimeId")]
         public int AnimeId { get; set; }

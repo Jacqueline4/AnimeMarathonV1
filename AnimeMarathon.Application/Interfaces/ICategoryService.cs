@@ -1,4 +1,5 @@
 ﻿using AnimeMarahon.Core.Entities;
+using AnimeMarathon.Application.Services.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace AnimeMarathon.Application.Interfaces
 {
     public interface ICategoryService
     {
-        Task<IEnumerable<Category>> GetCategoryList();
-        Task<IEnumerable<Category>> GetCategoryByName(string category);
-        Task<Category> Create(Category category);
-        Task Update(Category category);
+        Task<IEnumerable<CategoryDTO>> GetCategoryList();
+        Task<IEnumerable<CategoryDTO>> GetCategoryByName(string category);
+        Task<CategoryDTO> Create(CategoryDTO category);
+        Task Update(CategoryDTO category);
         Task Delete(int categoryId);
     }
 }

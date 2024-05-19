@@ -12,18 +12,12 @@ namespace AnimeMarahon.Core.Entities
     [Table("AnimesGeneros")]
     public class AnimeGenre : BaseEntity
     {
-        [Key]
-        [Column(Order = 1)]
+      
         [ForeignKey("GeneroId")]
         public int GeneroId { get; set; }
-        [Key]
-        [Column(Order = 2)]
+      
         [ForeignKey("AnimeId")]
-        public int AnimeId { get; set; }
-
-        //// Agrega propiedades de navegación si es necesario
-        //public virtual Anime Anime { get; set; }
-        //public virtual Genre Genre { get; set; }
+        public int AnimeId { get; set; }   
 
     }
 }

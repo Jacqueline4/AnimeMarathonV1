@@ -1,4 +1,4 @@
-﻿namespace AnimeMarathonV1.DTOs.NewFolder
+﻿namespace AnimeMarathon.Application.Services.DTOs
 {
     public class BaseDTO
     {

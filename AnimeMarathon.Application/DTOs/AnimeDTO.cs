@@ -1,7 +1,6 @@
-﻿using AnimeMarathonV1.DTOs.NewFolder;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AnimeMarathonV1.DTOs
+namespace AnimeMarathon.Application.Services.DTOs
 {
     public class AnimeDTO : BaseDTO
     {

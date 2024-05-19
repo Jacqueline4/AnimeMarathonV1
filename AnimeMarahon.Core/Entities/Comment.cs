@@ -13,6 +13,10 @@ namespace AnimeMarahon.Core.Entities
     {
         [Column("Comentario")]
         public string? CommentString { get; set; }
+        [ForeignKey("AnimeId")]
+        public int AnimeId { get; set; }
+        [ForeignKey("UsuarioId")]
+        public int UserId { get; set; }
 
     }
 }

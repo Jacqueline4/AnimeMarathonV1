@@ -12,9 +12,14 @@ namespace AnimeMarathon.Web.Pages
             _logger = logger;
         }
 
-        public void OnGet()
-        {
+        //public void OnGet()
+        //{
 
+        //}
+        public IActionResult OnGet()
+        {
+            // Redirige a la página de inicio de sesión
+            return RedirectToPage("/Login");
         }
     }
 }

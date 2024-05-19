@@ -1,4 +1,5 @@
 ﻿using AnimeMarahon.Core.Entities;
+using AnimeMarathon.Application.Services.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,13 @@ namespace AnimeMarathon.Application.Interfaces
 {
     public interface IAnimeService
     {
-        Task<IEnumerable<Anime>> GetAnimeList();
-        Task<Anime> GetAnimeById(int animeId);
-        Task<IEnumerable<Anime>> GetAnimeByName(string anime);
-        Task<Anime> Create(Anime anime);
-        Task Update(Anime anime);
+        Task<IEnumerable<AnimeDTO>> GetAnimeList();
+        Task<AnimeDTO> GetAnimeById(int animeId);
+        Task<IEnumerable<AnimeDTO>> GetAnimeByName(string anime);
+        Task<AnimeDTO> Create(AnimeDTO anime);
+        Task Update(AnimeDTO anime);
         //Task Delete(Anime anime);
         Task Delete (int animeId);
+        Task<IEnumerable<AnimeDTO>> GetAnimeByUser(int userId);
     }
 }

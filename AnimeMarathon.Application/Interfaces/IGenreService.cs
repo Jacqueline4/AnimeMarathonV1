@@ -1,4 +1,5 @@
 ﻿using AnimeMarahon.Core.Entities;
+using AnimeMarathon.Application.Services.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace AnimeMarathon.Application.Interfaces
 {
     public interface IGenreService
     {
-        Task<IEnumerable<Genre>> GetGenreList();
-        Task<IEnumerable<Genre>> GetGenresByAnimeName(string genre);
-        Task<Genre> Create(Genre genre);
-        Task Update(Genre genre);
+        Task<IEnumerable<GenreDTO>> GetGenreList();
+        Task<IEnumerable<GenreDTO>> GetGenresByAnimeName(string genre);
+        Task<GenreDTO> Create(GenreDTO genre);
+        Task Update(GenreDTO genre);
         Task Delete(int genreId);
     }
 }

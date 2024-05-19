@@ -1,7 +1,7 @@
 ﻿using AnimeMarahon.Core.Entities;
 using AnimeMarathon.Application.Interfaces;
 using AnimeMarathon.Application.Services;
-using AnimeMarathonV1.DTOs;
+using AnimeMarathon.Application.Services.DTOs;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
@@ -48,7 +48,7 @@ namespace AnimeMarathonV1.Controllers
             if (mapped == null)
                 throw new Exception($"Entity could not be mapped.");
 
-            var entityDto = await genreService.Create(mapped);
+            var entityDto = await genreService.Create(genreViewModel);
 
             var mappedViewModel = mapper.Map<GenreDTO>(entityDto);
             return mappedViewModel;
@@ -61,7 +61,7 @@ namespace AnimeMarathonV1.Controllers
             if (mapped == null)
                 throw new Exception($"Entity could not be mapped.");
 
-            await genreService.Update(mapped);
+            await genreService.Update(genreViewModel);
         }
 
         [HttpDelete]

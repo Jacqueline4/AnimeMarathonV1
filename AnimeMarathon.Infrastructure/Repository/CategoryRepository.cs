@@ -26,7 +26,7 @@ namespace AnimeMarathon.Data.Repository
 
             var categoriesIds = await dbContext.AnimeCategories
                                           .Where(ag => ag.AnimeId == anime.Id)
-                                          .Select(ag => ag.CategoryId)
+                                          .Select(ag => ag.CategoriaId)
                                           .ToListAsync();
 
             return await dbContext.Categories

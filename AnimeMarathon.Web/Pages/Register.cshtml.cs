@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AnimeMarathon.Web.Pages
 {
-    public class RegistroModel : PageModel
+    public class RegisterModel : PageModel
     {
         public void OnGet()
         {

@@ -11,8 +11,8 @@ namespace AnimeMarahon.Core.Entities
     [Table("AnimesCategorias")]
     public class AnimeCategory : BaseEntity
     {
-        [ForeignKey("CategoryId")]
-        public int CategoryId { get; set; }
+        [ForeignKey("CategoriaId")]
+        public int CategoriaId { get; set; }
         [ForeignKey("AnimeId")]
         public int AnimeId { get; set; }
     }

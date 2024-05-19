@@ -1,6 +1,7 @@
 ﻿using AnimeMarahon.Core.Entities;
 using AnimeMarathon.Application.Interfaces;
-using AnimeMarathonV1.DTOs;
+using AnimeMarathon.Application.Interfaces.Base;
+using AnimeMarathon.Application.Services.DTOs;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,16 +12,16 @@ namespace AnimeMarathonV1.Controllers
     public class AnimeGenreController : ControllerBase
     {
         private readonly IMapper mapper;
-        private readonly IAnimeGenreService animeGenreService;
-        public AnimeGenreController(IMapper mapper, IAnimeGenreService animeGenreService)
+        private readonly IBaseServices<AnimeGenreDTO,AnimeGenre> baseServices;
+        public AnimeGenreController(IMapper mapper, IBaseServices<AnimeGenreDTO,AnimeGenre> baseServices) 
         {
             this.mapper = mapper;
-            this.animeGenreService = animeGenreService;
+            this.baseServices = baseServices;
         }
         [HttpGet]
         public async Task<IEnumerable<AnimeGenreDTO>> Get()
         {
-            var list = await animeGenreService.GetAnimeGenreList();
+            var list = await baseServices.GetList();    
             var mapped = mapper.Map<IEnumerable<AnimeGenreDTO>>(list);
             return mapped;
         }
@@ -32,7 +33,7 @@ namespace AnimeMarathonV1.Controllers
             if (mapped == null)
                 throw new Exception($"Entity could not be mapped.");
 
-            var entityDto = await animeGenreService.Create(mapped); 
+            var entityDto = await baseServices.Create(animeGenreViewModel); 
 
             var mappedViewModel = mapper.Map<AnimeGenreDTO>(entityDto);
             return mappedViewModel;
@@ -42,7 +43,7 @@ namespace AnimeMarathonV1.Controllers
         [HttpDelete]
         public async Task DeleteAnimeGenre(int animeGenreId)
         {
-            await animeGenreService.Delete(animeGenreId);
+            await baseServices.Delete(animeGenreId);
         }
     }
 }

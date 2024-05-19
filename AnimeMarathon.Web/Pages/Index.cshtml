@@ -1,6 +1,6 @@
 ﻿@page
 @model IndexModel
-@*
+
 @{
     ViewData["Title"] = "Home page";
 }
@@ -9,7 +9,7 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
-*@
+@*
 
 @{
     ViewData["Title"] = "Login";
@@ -28,8 +28,12 @@
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
     </form>
+    <div class="text-danger">
+        @TempData["Error"]
+    </div>
+
     <div>
         <p>¿Olvidaste tu contraseña? <a href="#">Haz clic aquí</a>.</p>
-        <p>¿No tienes una cuenta? <a href="Registro">Regístrate aquí</a>.</p>
+        <p>¿No tienes una cuenta? <a href="./Register">Regístrate aquí</a>.</p>
     </div>
-</div>
+</div> *@
