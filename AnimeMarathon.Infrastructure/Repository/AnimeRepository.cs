@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace AnimeMarathon.Data.Repository
 {
@@ -87,11 +88,7 @@ namespace AnimeMarathon.Data.Repository
 
         public async Task<IEnumerable<Anime>> GetAnimeByUserAsync(int userId)
         {
-            //var category = await dbContext.Users.FirstOrDefaultAsync(g => g.Id.Equals(id));
-            //if (category == null)
-            //{
-            //    return new List<Anime>();
-            //}
+           
             var animeIds = await dbContext.UsersAnimes
                                           .Where(ac => ac.UsuarioId == userId)
                                           .Select(ac => ac.AnimeId)
@@ -101,6 +98,14 @@ namespace AnimeMarathon.Data.Repository
                                     .Where(a => animeIds.Contains(a.Id))
                                     .ToListAsync();
         }
+
+        public async Task<IEnumerable<Comment>> GetCommentsByAnimeId(int animeId)
+        {
+            var comments = await dbContext.Comments.Where(c => c.AnimeId == animeId).ToListAsync();
+            return comments;
+        }
+
+       
 
     }
 }

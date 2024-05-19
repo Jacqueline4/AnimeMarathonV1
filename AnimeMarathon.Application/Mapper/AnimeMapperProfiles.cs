@@ -1,4 +1,5 @@
 ﻿using AnimeMarahon.Core.Entities;
+using AnimeMarathon.Application.DTOs;
 using AnimeMarathon.Application.Services.DTOs;
 using AutoMapper;
 
@@ -35,7 +36,7 @@ namespace AnimeMarathon.Application.Services.Mapper
         {
             CreateMap<UserDTO, User>().ReverseMap();
 
-            CreateMap<IEnumerable<User>, IEnumerable<UserDTO>>();
+            //CreateMap<IEnumerable<User>, IEnumerable<UserDTO>>();
         }
     }
     public class UserAnimeMapperProfiles : Profile
@@ -46,7 +47,20 @@ namespace AnimeMarathon.Application.Services.Mapper
             //CreateMap<IEnumerable<UsersAnimes>, IEnumerable<UsersAnimeDTO>>();
         }
     }
-
+    public class CommentsMapperProfiles : Profile
+    {
+        public CommentsMapperProfiles()
+        {
+            CreateMap<CommentDTO, Comment>().ReverseMap();
+        }
+    }
+    public class RatingMapperProfiles : Profile
+    {
+        public RatingMapperProfiles()
+        {
+            CreateMap<RatingDTO, Rating>().ReverseMap();
+        }
+    }
     public class AutoMapperDiscorveryProfile
     {
 

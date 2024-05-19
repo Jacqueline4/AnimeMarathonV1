@@ -1,0 +1,63 @@
+﻿@page "/AnimeDetail"
+@model AnimeMarathon.Web.Pages.AnimeDetailModel
+@{
+    ViewData["Title"] = "Anime Detail";
+}
+
+<h1>@Model.Anime.Title</h1>
+
+<div>
+    <h3>Descripción:</h3>
+    <p>@Model.Anime.Description</p>
+</div>
+
+<div>
+    <h3>Fecha de Publicación:</h3>
+    <p>@Model.Anime.StartDate.ToShortDateString()</p>
+</div>
+<div>
+    <h3>Puntuación:</h3>
+    <p>@Model.Anime.AverageRating.ToString()</p>
+</div>
+<div>
+    <h3>PEGI</h3>
+    <p>@Model.Anime.AgeRating</p>
+</div>
+<div>
+    <h3>Subtipo:</h3>
+    <p>@Model.Anime.Subtype</p>
+</div>
+<div>
+    <h3>Estado:</h3>
+    <p>@Model.Anime.Status</p>
+</div>
+<div>
+    <h3>Total Episodios:</h3>
+    <p>@Model.Anime.TotalEpisodes.ToString()</p>
+</div>
+<div>
+    <h3>Escribir un Comentario</h3>
+    <form method="post" action="https://localhost:7269/Comments">
+        <div class="form-group">
+            <label for="comment">Comentario:</label>
+            <textarea id="comment" name="CommentString" class="form-control" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <input type="hidden" name="AnimeId" value="@Model.Anime.Id" />
+            <input type="hidden" name="UserId" value="1" /> <!-- Cambia esto por el ID del usuario actual -->
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar Comentario</button>
+    </form>
+</div>
+<div>
+    <h3>Comentarios:</h3>
+    <ul>
+        @foreach (var comment in Model.Comments)
+        {
+            <li>@comment.CommentString - Escrito por: @comment.UsuarioId</li>
+        }
+    </ul>
+</div>
+<div>
+    <a href="/UserMenu" class="btn btn-primary">Volver al Menú</a>
+</div>

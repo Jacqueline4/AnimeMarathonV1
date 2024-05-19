@@ -5,10 +5,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddHttpClient<UserMenuModel>(); // Registrar HttpClient para UserMenuModel
-
+builder.Services.AddHttpClient<AnimeDetailModel>();
 //// Register IHttpClientFactory -- se añade para que la pagina index redireccione a Login
 //builder.Services.AddHttpClient();
-
+builder.Services.AddSession();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -23,7 +23,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthorization();
 
 app.MapRazorPages();

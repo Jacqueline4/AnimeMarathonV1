@@ -1,4 +1,4 @@
-﻿using AnimeMarahon.Core.Entities.Base;
+﻿using AnimeMarathon.Application.Services.DTOs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,10 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AnimeMarahon.Core.Entities
+namespace AnimeMarathon.Application.DTOs
 {
-    [Table("Comentarios")]
-    public class Comment : BaseEntity
+    public class CommentDTO : BaseDTO
     {
         [Column("Fecha_hora")]
         public DateTime DateTime { get; set; }
@@ -19,6 +18,5 @@ namespace AnimeMarahon.Core.Entities
         public int AnimeId { get; set; }
         [ForeignKey("UsuarioId")]
         public int UsuarioId { get; set; }
-
     }
 }

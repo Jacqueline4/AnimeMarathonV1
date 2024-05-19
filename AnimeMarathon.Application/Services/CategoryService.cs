@@ -48,7 +48,6 @@ namespace AnimeMarathon.Application.Services
                 throw new ApplicationException($"Entity could not be loaded.");
 
             editCategory.Id = category.Id;
-            editCategory.Description = category.Description;
             editCategory.Name = category.Name;
 
             await categoryResository.UpdateAsync(editCategory);

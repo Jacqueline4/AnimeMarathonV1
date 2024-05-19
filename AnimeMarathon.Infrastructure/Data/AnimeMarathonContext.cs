@@ -15,6 +15,7 @@ namespace AnimeMarathon.Data.Data
         public Microsoft.EntityFrameworkCore.DbSet<Anime> Animes { get; set; }
         public Microsoft.EntityFrameworkCore.DbSet<User> Users { get; set; }
         public Microsoft.EntityFrameworkCore.DbSet<Comment> Comments { get; set; }
+
         public Microsoft.EntityFrameworkCore.DbSet<Genre> Genres { get; set; }
         public Microsoft.EntityFrameworkCore.DbSet<Rating> Ratings { get; set; }
         public Microsoft.EntityFrameworkCore.DbSet<UsersRatings> UsersRatings { get; set; }

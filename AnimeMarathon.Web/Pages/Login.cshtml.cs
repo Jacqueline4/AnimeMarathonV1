@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AnimeMarathon.Web.Pages
 {
@@ -13,17 +14,13 @@ namespace AnimeMarathon.Web.Pages
         //{
         //}
          private readonly IHttpClientFactory _clientFactory;
-        //private readonly ILogger<LoginModel> _logger;
+       
 
         public LoginModel(IHttpClientFactory clientFactory)
         {
             _clientFactory = clientFactory;
         }
-        //public LoginModel(IHttpClientFactory clientFactory, ILogger<LoginModel> logger) // Modificar el constructor para incluir ILogger
-        //{
-        //    _clientFactory = clientFactory;
-        //    _logger = logger; // Asignar logger
-        //}
+        
         public void OnGet()
         {
         }
@@ -46,16 +43,14 @@ namespace AnimeMarathon.Web.Pages
             {
                 var content = await response.Content.ReadAsStringAsync();
                 var user = JsonConvert.DeserializeObject<UserDTO>(content);
-                //_logger.LogInformation("User object: {User}", user); //
 
                 return RedirectToPage("/UserMenu", user);
-                //return RedirectToPage("/UserMenu", username);
+              
             }
             else
             {
-                //var content = await response.Content.ReadAsStringAsync();
-                //var error = JsonConvert.DeserializeObject<dynamic>(content);
-                //return ModelState.AddModelError(string.Empty, error.error.ToString());
+               
+                ModelState.AddModelError(string.Empty,"Usuario o contraseña incorrectos");
                 return Page();
             }
         }

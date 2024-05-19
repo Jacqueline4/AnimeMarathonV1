@@ -1,4 +1,5 @@
 ﻿using AnimeMarahon.Core.Entities;
+using AnimeMarathon.Application.DTOs;
 using AnimeMarathon.Application.Interfaces;
 using AnimeMarathon.Application.Interfaces.Base;
 using AnimeMarathon.Application.Services;
@@ -65,6 +66,13 @@ namespace AnimeMarathonV1.Controllers
                 return Enumerable.Empty<AnimeDTO>();
             }
         }
+        [HttpGet("GetCommentByAnime/{animeId}")]
+        public async Task<IEnumerable<CommentDTO>> GetCommentsByAnimeId(int animeId)
+        {
+            var comments = await animeService.GetCommentsByAnimeId(animeId);
+            var mapped = mapper.Map<IEnumerable<CommentDTO>>(comments);
+            return mapped;
+        }
 
 
         [HttpPost ("UserAnime")]
@@ -79,20 +87,8 @@ namespace AnimeMarathonV1.Controllers
             var mappedViewModel = mapper.Map<UsersAnimeDTO>(entityDto);
             return mappedViewModel;
         }
-        /*
-          [HttpPost]
-        public async Task<AnimeGenreDTO> CreateAG(AnimeGenreDTO animeGenreViewModel)
-        {
-            var mapped = mapper.Map<AnimeGenre>(animeGenreViewModel);
-            if (mapped == null)
-                throw new Exception($"Entity could not be mapped.");
 
-            var entityDto = await baseServices.Create(animeGenreViewModel); 
 
-            var mappedViewModel = mapper.Map<AnimeGenreDTO>(entityDto);
-            return mappedViewModel;
-        }
-*/
         [HttpPost]
         public async Task<AnimeDTO> CreateAnime(AnimeDTO animeViewModel)
         {

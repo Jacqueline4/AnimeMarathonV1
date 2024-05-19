@@ -14,7 +14,6 @@ namespace AnimeMarahon.Core.Entities
         [Column("Nombre")]
         public string? Name { get; set; }
 
-        [Column("Descripcion")]
-        public string? Description { get; set; }
+       
     }
 }

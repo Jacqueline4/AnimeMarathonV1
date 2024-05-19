@@ -52,7 +52,6 @@ namespace AnimeMarathon.Application.Services
                 throw new ApplicationException($"Entity could not be loaded.");
 
             editGenre.Id = genre.Id;
-            editGenre.Description = genre.Description;
             editGenre.Name = genre.Name;          
 
             await genreRepository.UpdateAsync(editGenre);
