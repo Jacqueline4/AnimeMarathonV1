@@ -16,22 +16,19 @@ namespace AnimeMarathon.Data.Repository
         public CategoryRepository(AnimeMarathonContext dbContext) : base(dbContext)
         {
         }
-        public async Task<IEnumerable<Category>> GetCategoryByAnimeNameAsync(string animeName)
+        public async Task<IEnumerable<Category>> GetCategoryByAnimeIdAsync(int animeId)
         {
-            var anime = await dbContext.Animes.FirstOrDefaultAsync(g => g.Title.Contains(animeName));
-            if (anime == null)
-            {
-                return new List<Category>();
-            }
+            var categories = await dbContext.Categories
+  .Join(dbContext.AnimeCategories,
+      category => category.Id,
+      animeCategory => animeCategory.CategoriaId,
+      (category, animeCategory) => new { Category = category, AnimeCategory = animeCategory })
+  .Where(ag => ag.AnimeCategory.AnimeId == animeId)
+  .Select(ag => ag.Category)
+  .ToListAsync();
 
-            var categoriesIds = await dbContext.AnimeCategories
-                                          .Where(ag => ag.AnimeId == anime.Id)
-                                          .Select(ag => ag.CategoriaId)
-                                          .ToListAsync();
+            return categories;
 
-            return await dbContext.Categories
-                                    .Where(a => categoriesIds.Equals(a.Id))
-                                    .ToListAsync();
         }
     }
     

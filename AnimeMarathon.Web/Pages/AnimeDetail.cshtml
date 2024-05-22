@@ -5,20 +5,22 @@
 }
 
 <h1>@Model.Anime.Title</h1>
-
-<div>
-    <h3>Descripción:</h3>
-    <p>@Model.Anime.Description</p>
+<div style="display: flex; flex-direction: row;">
+    <img src="@Model.Anime.posterImage" alt="@Model.Anime.Title Poster" style="max-width: 50%;" />
+    <div style="margin-left: 20px;">
+        <h3>Descripción:</h3>
+        <p>@Model.Anime.Description</p>
+    </div>
 </div>
+
 
 <div>
     <h3>Fecha de Publicación:</h3>
     <p>@Model.Anime.StartDate.ToShortDateString()</p>
-</div>
-<div>
     <h3>Puntuación:</h3>
     <p>@Model.Anime.AverageRating.ToString()</p>
 </div>
+
 <div>
     <h3>PEGI</h3>
     <p>@Model.Anime.AgeRating</p>
@@ -26,14 +28,31 @@
 <div>
     <h3>Subtipo:</h3>
     <p>@Model.Anime.Subtype</p>
-</div>
-<div>
     <h3>Estado:</h3>
     <p>@Model.Anime.Status</p>
 </div>
+
 <div>
     <h3>Total Episodios:</h3>
     <p>@Model.Anime.TotalEpisodes.ToString()</p>
+</div>
+<div>
+    <h3>Generos:</h3>
+    <ul>
+        @foreach (var genres in Model.Genres)
+        {
+            <li> @genres.Name</li>
+        }
+    </ul>
+</div>
+<div>
+    <h3>Categorias:</h3>
+    <ul>
+        @foreach (var category in Model.Categories)
+        {
+            <li> @category.Name</li>
+        }
+    </ul>
 </div>
 <div>
     <h3>Escribir un Comentario</h3>

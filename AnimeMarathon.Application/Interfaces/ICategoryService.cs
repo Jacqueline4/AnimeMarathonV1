@@ -11,7 +11,7 @@ namespace AnimeMarathon.Application.Interfaces
     public interface ICategoryService
     {
         Task<IEnumerable<CategoryDTO>> GetCategoryList();
-        Task<IEnumerable<CategoryDTO>> GetCategoryByName(string category);
+        Task<IEnumerable<CategoryDTO>> GetCategoryByAnimeId(int animeId);
         Task<CategoryDTO> Create(CategoryDTO category);
         Task Update(CategoryDTO category);
         Task Delete(int categoryId);

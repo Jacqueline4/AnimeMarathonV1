@@ -22,5 +22,7 @@ namespace AnimeMarathon.Application.Services.DTOs
         public string? Description { get; set; }
         [Column("Total_episodios")]
         public int TotalEpisodes { get; set; }
+        [Column("PosterUrl")]
+        public string posterImage { get; set; }
     }
 }

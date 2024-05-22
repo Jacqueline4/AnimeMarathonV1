@@ -4,10 +4,8 @@
     ViewData["Title"] = "User Profile";
 }
 
-<h1>User Profile</h1>
-
 <div>
-    <h2>Welcome, @Model.Username</h2>
+    <h2>Welcome @Model.Username</h2>
 </div>
 
 <div>
@@ -21,11 +19,17 @@
 </div>
 <div>
     <h3>Animes:</h3>
-    <ul>
+    <div style="display: flex; flex-wrap: wrap;">
         @foreach (var anime in Model.Animes)
         {
-            <li><a href="/AnimeDetail?id=@anime.Id">@anime.Title</a></li>
+            <div style="width: 200px; margin: 10px;">
+                <a href="/AnimeDetail?id=@anime.Id">
+                    <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" />
+                    <div style="text-align: center;">@anime.Title</div>
+                </a>
+            </div>
         }
-    </ul>
+    </div>
 </div>
+
 

@@ -92,7 +92,7 @@ namespace AnimeMarathon.Application.Services
             editAnime.AgeRating = anime.AgeRating;
             editAnime.Subtype = anime.Subtype;
             editAnime.TotalEpisodes= anime.TotalEpisodes;
-           // editAnime.GenreId = anime.GenreId;
+            editAnime.posterImage = anime.posterImage;
 
             await animeRepository.UpdateAsync(editAnime);
         }

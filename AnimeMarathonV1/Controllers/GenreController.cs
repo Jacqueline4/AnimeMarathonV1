@@ -26,17 +26,17 @@ namespace AnimeMarathonV1.Controllers
             return mapped;
         }
 
-        [HttpGet("GetGenreByAnimeName/{animeName}")]
-        public async Task<IEnumerable<GenreDTO>> GetGenre(string animeName)
+        [HttpGet("GetGenreByAnimeId/{animeId}")]
+        public async Task<IEnumerable<GenreDTO>> GetGenre(int animeId)
         {
-            if (string.IsNullOrWhiteSpace(animeName))
-            {
-                var list = await genreService.GetGenreList();   
-                var mapped = mapper.Map<IEnumerable<GenreDTO>>(list);
-                return mapped;
-            }
+            //if (int.IsNullOrWhiteSpace(animeId))
+            //{
+            //    var list = await genreService.GetGenreList();   
+            //    var mapped = mapper.Map<IEnumerable<GenreDTO>>(list);
+            //    return mapped;
+            //}
 
-            var listByName = await genreService.GetGenresByAnimeName(animeName);  
+            var listByName = await genreService.GetGenresByAnimeId(animeId);  
             var mappedByName = mapper.Map<IEnumerable<GenreDTO>>(listByName);
             return mappedByName;
         }

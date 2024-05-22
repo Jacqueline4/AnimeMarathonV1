@@ -29,6 +29,8 @@ namespace AnimeMarahon.Core.Entities
         public string? Description { get; set; }
         [Column("Total_episodios")]
         public int TotalEpisodes { get; set; }
-       
+        [Column("PosterUrl")]
+        public string posterImage { get; set; }
+
     }
 }

@@ -10,6 +10,8 @@ namespace AnimeMarathon.Web.Pages
     {
         private readonly HttpClient _httpClient;
         public AnimeDTO Anime { get; private set; }
+        public List<GenreDTO> Genres { get; private set; }
+        public List<CategoryDTO> Categories { get; private set; }
         public List<CommentDTO> Comments { get; private set; }
 
         public AnimeDetailModel(HttpClient httpClient)
@@ -26,6 +28,22 @@ namespace AnimeMarathon.Web.Pages
                 var content = await response.Content.ReadAsStringAsync();
                 Anime = JsonSerializer.Deserialize<AnimeDTO>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             }
+
+            //https://localhost:7269/Genre/GetGenreByAnimeId/1
+            var genresResponse = await _httpClient.GetAsync($"https://localhost:7269/Genre/GetGenreByAnimeId/{id}");
+            if (genresResponse.IsSuccessStatusCode)
+            {
+                var commentsContent = await genresResponse.Content.ReadAsStringAsync();
+                Genres = JsonSerializer.Deserialize<List<GenreDTO>>(commentsContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            }
+            //https://localhost:7269/Category/GetCategoryByAnimeId/
+            var categoriesResponse = await _httpClient.GetAsync($"https://localhost:7269/Category/GetCategoryByAnimeId/{id}");
+            if (categoriesResponse.IsSuccessStatusCode)
+            {
+                var commentsContent = await categoriesResponse.Content.ReadAsStringAsync();
+                Categories = JsonSerializer.Deserialize<List<CategoryDTO>>(commentsContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            }
+
             var commentsResponse = await _httpClient.GetAsync($"https://localhost:7269/Anime/GetCommentByAnime/{id}");
             if (commentsResponse.IsSuccessStatusCode)
             {

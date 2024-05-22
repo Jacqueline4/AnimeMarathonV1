@@ -26,9 +26,9 @@ namespace AnimeMarathon.Application.Services
             return _mapper.Map<IEnumerable<CategoryDTO>>(categoryList);
 
         }
-        public async Task<IEnumerable<CategoryDTO>> GetCategoryByName(string category)
+        public async Task<IEnumerable<CategoryDTO>> GetCategoryByAnimeId(int animeId)
         {
-            var categoryList = await categoryResository.GetCategoryByAnimeNameAsync(category);
+            var categoryList = await categoryResository.GetCategoryByAnimeIdAsync(animeId);
             return _mapper.Map<IEnumerable<CategoryDTO>>(categoryList);
         }
         public async Task<CategoryDTO> Create(CategoryDTO categoryDto)

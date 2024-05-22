@@ -11,7 +11,7 @@ namespace AnimeMarathon.Application.Interfaces
     public interface IGenreService
     {
         Task<IEnumerable<GenreDTO>> GetGenreList();
-        Task<IEnumerable<GenreDTO>> GetGenresByAnimeName(string genre);
+        Task<IEnumerable<GenreDTO>> GetGenresByAnimeId(int animeId);
         Task<GenreDTO> Create(GenreDTO genre);
         Task Update(GenreDTO genre);
         Task Delete(int genreId);

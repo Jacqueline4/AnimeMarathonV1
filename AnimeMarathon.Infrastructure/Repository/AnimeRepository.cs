@@ -85,7 +85,6 @@ namespace AnimeMarathon.Data.Repository
                 .Where(x => x.Subtype.Equals(subtype))
                 .ToListAsync();
         }
-
         public async Task<IEnumerable<Anime>> GetAnimeByUserAsync(int userId)
         {
            
@@ -98,7 +97,6 @@ namespace AnimeMarathon.Data.Repository
                                     .Where(a => animeIds.Contains(a.Id))
                                     .ToListAsync();
         }
-
         public async Task<IEnumerable<Comment>> GetCommentsByAnimeId(int animeId)
         {
             var comments = await dbContext.Comments.Where(c => c.AnimeId == animeId).ToListAsync();

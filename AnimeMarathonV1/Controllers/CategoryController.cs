@@ -18,17 +18,17 @@ namespace AnimeMarathonV1.Controllers
             this.categoryService = categoryService;
         }
 
-        [HttpGet("GetCategoryByName/{categoryName}")]
-        public async Task<IEnumerable<CategoryDTO>> GetCategory(string categoryName)
+        [HttpGet("GetCategoryByAnimeId/{animeId}")]
+        public async Task<IEnumerable<CategoryDTO>> GetCategoryByAnimeId(int animeId)
         {
-            if (string.IsNullOrWhiteSpace(categoryName))
-            {
-                var list = await categoryService.GetCategoryList(); 
-                var mapped = mapper.Map<IEnumerable<CategoryDTO>>(list);
-                return mapped;
-            }
+            //if (string.IsNullOrWhiteSpace(categoryName))
+            //{
+            //    var list = await categoryService.GetCategoryList(); 
+            //    var mapped = mapper.Map<IEnumerable<CategoryDTO>>(list);
+            //    return mapped;
+            //}
 
-            var listByName = await categoryService.GetCategoryByName(categoryName); 
+            var listByName = await categoryService.GetCategoryByAnimeId(animeId); 
             var mappedByName = mapper.Map<IEnumerable<CategoryDTO>>(listByName);
             return mappedByName;
         }
