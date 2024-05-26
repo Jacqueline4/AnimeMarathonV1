@@ -15,9 +15,12 @@ namespace AnimeMarahon.Core.Entities
       
         [ForeignKey("GeneroId")]
         public int GeneroId { get; set; }
+
+        public virtual Genre Genero { get; set; }
       
         [ForeignKey("AnimeId")]
-        public int AnimeId { get; set; }   
+        public int AnimeId { get; set; }
+        public virtual Anime Anime{ get; set; }
 
     }
 }

@@ -11,12 +11,18 @@ namespace AnimeMarahon.Core.Entities
     [Table("Valoraciones")]
     public class Rating : BaseEntity
     {
-        [Column("Valoracion_media_propia")]
-        public decimal? AverageRatingSelf { get; set; }
+        [Column("Valoracion")]
+        public decimal? RatingVal { get; set; }
+
         [ForeignKey("AnimeId")]
         public int AnimeId { get; set; }
+
+        public virtual  Anime Anime { get; set; }
+
         [Column("UsuarioId")]
         public int UserId { get; set; }
 
+
+        public virtual User User { get; set; }
     }
 }

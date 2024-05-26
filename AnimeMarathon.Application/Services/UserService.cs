@@ -72,7 +72,7 @@ namespace AnimeMarathon.Application.Services
 
         public async Task Update(UserDTO user)
         {
-            ValidateUserIfNotExist(user);
+            //ValidateUserIfNotExist(user);
 
             var editUser = await _userRepository.GetByIdAsync(user.Id);
             if (editUser == null)
@@ -83,7 +83,8 @@ namespace AnimeMarathon.Application.Services
             editUser.LastName = user.LastName;
             editUser.Password = user.Password;
             editUser.Email = user.Email;
-          
+
+            await _userRepository.UpdateAsync(editUser);
         }
         private async Task ValidateUserIfExist(UserDTO user)
         {

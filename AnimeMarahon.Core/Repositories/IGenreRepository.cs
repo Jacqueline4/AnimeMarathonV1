@@ -11,5 +11,6 @@ namespace AnimeMarahon.Core.Repositories
     public interface IGenreRepository : IRepository<Genre>
     {
         Task<IEnumerable<Genre>> GetGenreByAnimeIdAsync(int animeId);
+        Task<IEnumerable<Genre>> GetAllWithAnimesAsync();
     }
 }

@@ -1,8 +1,10 @@
 ﻿using AnimeMarahon.Core.Entities;
 using AnimeMarahon.Core.Repositories;
+using AnimeMarathon.Application.DTOs;
 using AnimeMarathon.Application.Interfaces;
 using AnimeMarathon.Application.Services.DTOs;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,22 +50,75 @@ namespace AnimeMarathon.Application.Services
             return _mapper.Map<AnimeDTO>(anime); ;
         }
 
+        public async Task<IEnumerable<AnimeDTO>> GetAnimeFilteredGenric(AnimeFilterDTO filtro)
+        {
+            var query = animeRepository.GetAllQueryable()
+                .Include(x => x.AnimeGenres)
+                    .ThenInclude(x => x.Genero)
+                //.Include(x => x.AnimeRatings)
+                .AsQueryable();
+
+            if (filtro is null)
+            {
+                var all = await query.ToListAsync();
+                return _mapper.Map<IEnumerable<AnimeDTO>>(all);
+            }
+
+            if (!string.IsNullOrEmpty(filtro.Nombre))
+            {
+                query = query.Where(x => x.Title.Contains(filtro.Nombre));
+            }
+
+            if (filtro.Desde.HasValue)
+            {
+                var desde = new DateTime(filtro.Desde.Value, 1, 1);
+                query = query.Where(x => x.StartDate >= desde);
+            }
+
+            if (filtro.GeneroId.HasValue)
+            { 
+                query = query.Where(a => a.AnimeGenres.Select(g => g.GeneroId).Contains(filtro.GeneroId.Value));
+            }
+
+            if (filtro.Subtipo.HasValue)
+            {
+                query = query.Where(a => a.Subtype == filtro.GeneroId.Value.ToString()); //TODO subtipo = ENUM  =S quitar toString()
+            }
+
+            //TODO take & skip desde front
+            var entities = await query.Take(10).Skip(0).ToListAsync();
+            return _mapper.Map<IEnumerable<AnimeDTO>>(entities);
+        }
         public async Task<IEnumerable<AnimeDTO>> GetAnimeByName(string animeName)
         {
             var animeList = await animeRepository.GetAnimeByNameAsync(animeName);
             return _mapper.Map<IEnumerable<AnimeDTO>>(animeList);
         }
 
+        public async Task<IEnumerable<AnimeDTO>> GetAnimeByGenre(string genre)
+        {
+            var animeList = await animeRepository.GetAnimeByGenreAsync(genre);
+            return _mapper.Map<IEnumerable<AnimeDTO>>(animeList);
+        }
+
         public async Task<IEnumerable<AnimeDTO>> GetAnimeByUser(int userId)
         {
             try
-            { 
-                var animeList = await animeRepository.GetAnimeByUserAsync(userId);
-                return _mapper.Map<List<AnimeDTO>>(animeList.ToList());
-            }
-            catch(Exception ex)
             {
-               return  Enumerable.Empty<AnimeDTO>();
+                var animeList = await animeRepository.GetAnimeByUserAsync(userId);
+                var result = new List<AnimeDTO>();
+                foreach(var anime in animeList)
+                {
+                    var model = _mapper.Map<AnimeDTO>(anime);
+                    model.MiValoracion = anime.AnimeRatings.FirstOrDefault(x => x.UserId == userId)?.RatingVal;
+                    result.Add(model);
+                }
+                return result;
+                
+            }
+            catch (Exception ex)
+            {
+                return Enumerable.Empty<AnimeDTO>();
 
             }
         }
@@ -82,16 +137,16 @@ namespace AnimeMarathon.Application.Services
             if (editAnime == null)
                 throw new ApplicationException($"Entity could not be loaded.");
 
-            editAnime.Id= anime.Id;
+            editAnime.Id = anime.Id;
             editAnime.EndDate = anime.EndDate;
-            editAnime.StartDate= anime.StartDate;
-            editAnime.Description = anime.Description; 
+            editAnime.StartDate = anime.StartDate;
+            editAnime.Description = anime.Description;
             editAnime.Title = anime.Title;
             editAnime.AverageRating = anime.AverageRating;
             editAnime.Status = anime.Status;
             editAnime.AgeRating = anime.AgeRating;
             editAnime.Subtype = anime.Subtype;
-            editAnime.TotalEpisodes= anime.TotalEpisodes;
+            editAnime.TotalEpisodes = anime.TotalEpisodes;
             editAnime.posterImage = anime.posterImage;
 
             await animeRepository.UpdateAsync(editAnime);

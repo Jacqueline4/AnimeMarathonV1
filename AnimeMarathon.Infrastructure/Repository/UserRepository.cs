@@ -19,7 +19,7 @@ namespace AnimeMarathon.Data.Repository
         }
         public async Task<User> GetUserLoginAsync(string username, string password)
         {
-            var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Name == username);
+            var user = await dbContext.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Name == username);
 
             if (user != null && user.Password == password)
             {
@@ -33,7 +33,8 @@ namespace AnimeMarathon.Data.Repository
 
         public async Task<User> GetUserByNameAsync(string username)
         {
-            return await dbContext.Users.FirstOrDefaultAsync(x => x.Name == username);
+            //Users.Include(x => x.UserAnimes).ThenInclude(x => x.Anime)
+            return await dbContext.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Name == username);
         }
     }
 }

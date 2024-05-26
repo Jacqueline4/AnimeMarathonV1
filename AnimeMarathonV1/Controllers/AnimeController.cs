@@ -6,6 +6,8 @@ using AnimeMarathon.Application.Services;
 using AnimeMarathon.Application.Services.DTOs;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace AnimeMarathonV1.Controllers
 {
@@ -28,6 +30,15 @@ namespace AnimeMarathonV1.Controllers
             var list = await animeService.GetAnimeList();   
             var mapped = mapper.Map<IEnumerable<AnimeDTO>>(list);
             return mapped;
+        
+        }
+        [HttpPost("GetAnimes")]
+        public async Task<IEnumerable<AnimeDTO>> GetAnimesPost([FromBody] AnimeFilterDTO data)
+        {  
+             
+            var listByName = await animeService.GetAnimeFilteredGenric(data);
+            var mappedByName = mapper.Map<IEnumerable<AnimeDTO>>(listByName);
+            return mappedByName;
         }
 
         [HttpGet("GetAnimeByName/{animeName}")]
@@ -66,6 +77,16 @@ namespace AnimeMarathonV1.Controllers
                 return Enumerable.Empty<AnimeDTO>();
             }
         }
+
+
+        [HttpGet("GetAnimesByGenre/{genre}")]
+        public async Task<IEnumerable<AnimeDTO>> GetAnimesByGenre(string genre)
+        {
+            var anime = await animeService.GetAnimeByGenre(genre);
+            //var mapped = mapper.Map<AnimeDTO>(anime);
+            return anime;
+        }
+
         [HttpGet("GetCommentByAnime/{animeId}")]
         public async Task<IEnumerable<CommentDTO>> GetCommentsByAnimeId(int animeId)
         {

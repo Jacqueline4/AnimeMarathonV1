@@ -1,12 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AnimeMarathon.Application.Services.DTOs
 {
     public class GenreDTO : BaseDTO
-    {
-        [Column("Nombre")]
+    { 
+         
         public string? Name { get; set; }
 
-       
+        public IEnumerable<AnimeMinDTO> Animes{ get; set; }
     }
 }

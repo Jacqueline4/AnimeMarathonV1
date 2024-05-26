@@ -11,6 +11,13 @@ namespace AnimeMarahon.Core.Entities
     [Table("Usuarios")]
     public class User : BaseEntity
     {
+        public User() {
+
+            UserAnimes = new HashSet<UsersAnimes>();
+            UserRatings = new HashSet<Rating>();
+        }
+
+
         [Column("Nombre")]
         public string Name { get; set; }
         [Column("Apellidos")]
@@ -19,6 +26,9 @@ namespace AnimeMarahon.Core.Entities
         public string Email { get; set; }
         [Column("Contraseña")]
         public string? Password { get; set; }
+
+        public virtual IEnumerable<UsersAnimes> UserAnimes { get; set; }
+        public virtual IEnumerable<Rating> UserRatings{ get; set; }
         
     }
 }

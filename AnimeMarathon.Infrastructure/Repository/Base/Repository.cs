@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AnimeMarathon.Data.Repository.Base
 {
-    public class Repository<T> : IRepository<T> where T : BaseEntity
+    public  class Repository<T> : IRepository<T> where T : BaseEntity
     {
         protected readonly AnimeMarathonContext dbContext;
 
@@ -35,9 +35,19 @@ namespace AnimeMarathon.Data.Repository.Base
 
         public async Task<IReadOnlyList<T>> GetAllAsync()
         {
-            return await dbContext.Set<T>().ToListAsync();
+            return await dbContext.Set<T>().AsNoTracking().ToListAsync();
         }
 
+        public IQueryable<T> GetAllQueryable()
+        {
+            return dbContext.Set<T>().AsNoTracking().AsQueryable();
+        }
+
+        public async Task<IReadOnlyList<T>> GetAllPaginatedAsync(int top = 10, int skip = 0)
+        {
+            return await dbContext.Set<T>().Take(top).Skip(skip).AsNoTracking().ToListAsync();
+
+        }
         public async Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate)
         {
             return await dbContext.Set<T>().Where(predicate).ToListAsync();

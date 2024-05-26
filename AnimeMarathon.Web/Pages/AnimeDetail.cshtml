@@ -1,8 +1,9 @@
-﻿@page "/AnimeDetail"
+﻿@page "/AnimeDetail/"
 @model AnimeMarathon.Web.Pages.AnimeDetailModel
 @{
     ViewData["Title"] = "Anime Detail";
 }
+<partial name="_UserMenuPartial" />
 
 <h1>@Model.Anime.Title</h1>
 <div style="display: flex; flex-direction: row;">
@@ -10,6 +11,27 @@
     <div style="margin-left: 20px;">
         <h3>Descripción:</h3>
         <p>@Model.Anime.Description</p>
+        @* <form method="post" asp-page-handler="AddToMyList">
+            <input type="hidden" name="AnimeId" value="@Model.Anime.Id" />
+            <input type="hidden" name="UserId" value="@HttpContext.Session.GetString("_Id")" />
+            <button type="submit" class="btn btn-primary">Añadir a mi lista</button>
+        </form> *@
+        <form method="post" asp-page-handler="AddToMyList">
+            <input type="hidden" name="AnimeId" value="@Model.Anime.Id" />
+            <input type="hidden" name="UserId" value="@HttpContext.Session.GetString("_Id")" />
+
+            <div class="form-group">
+                <label for="status">Estado:</label>
+                <select id="status" name="Status" class="form-control">
+                    <option value="Viendo">Viendo</option>
+                    <option value="Visto">Visto</option>
+                    <option value="Abandonado">Abandonado</option>
+                    <option value="Para ver">Para ver</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Añadir a mi lista</button>
+        </form>
     </div>
 </div>
 
@@ -56,14 +78,15 @@
 </div>
 <div>
     <h3>Escribir un Comentario</h3>
-    <form method="post" action="https://localhost:7269/Comments">
+    <form method="post" >
         <div class="form-group">
             <label for="comment">Comentario:</label>
             <textarea id="comment" name="CommentString" class="form-control" rows="3"></textarea>
         </div>
         <div class="form-group">
             <input type="hidden" name="AnimeId" value="@Model.Anime.Id" />
-            <input type="hidden" name="UserId" value="1" /> <!-- Cambia esto por el ID del usuario actual -->
+            <input type="hidden" name="UserId" value="@HttpContext.Session.GetString("_Id")" />
+           
         </div>
         <button type="submit" class="btn btn-primary">Enviar Comentario</button>
     </form>
@@ -74,6 +97,7 @@
         @foreach (var comment in Model.Comments)
         {
             <li>@comment.CommentString - Escrito por: @comment.UsuarioId</li>
+            
         }
     </ul>
 </div>

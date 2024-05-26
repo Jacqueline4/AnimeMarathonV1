@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 
 namespace AnimeMarahon.Core.Entities
 {
-    [Table("UsuariosValoraciones")]
-    public class UsersRatings : BaseEntity
-    {
-        [ForeignKey("UsuarioId")]
-        public int UsuarioId { get; set; }
-        [ForeignKey("ValoracionId")]
-        public int RatingId { get; set; }
-    }
+    //[Table("UsuariosValoraciones")]
+    //public class UsersRatings : BaseEntity
+    //{
+    //    [ForeignKey("UsuarioId")]
+    //    public int UsuarioId { get; set; }
+
+    //    [ForeignKey("ValoracionId")]
+    //    public int RatingId { get; set; }
+    //}
 }

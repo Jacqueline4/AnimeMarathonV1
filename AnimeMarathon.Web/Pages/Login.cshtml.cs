@@ -1,4 +1,4 @@
-using AnimeMarahon.Core.Entities;
+
 using AnimeMarathon.Application.Services.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,17 +10,19 @@ namespace AnimeMarathon.Web.Pages
 {
     public class LoginModel : PageModel
     {
-        //public void OnGet()
-        //{
-        //}
-         private readonly IHttpClientFactory _clientFactory;
-       
+      
+        public const string SessionKeyName = "_Name";
+        public const string SessionKeyId = "_Id";
 
-        public LoginModel(IHttpClientFactory clientFactory)
+        private readonly IHttpClientFactory _clientFactory;
+        private readonly ILogger<LoginModel> _logger;
+
+        public LoginModel(IHttpClientFactory clientFactory, ILogger<LoginModel> logger)
         {
             _clientFactory = clientFactory;
+            _logger = logger;
         }
-        
+
         public void OnGet()
         {
         }
@@ -44,7 +46,11 @@ namespace AnimeMarathon.Web.Pages
                 var content = await response.Content.ReadAsStringAsync();
                 var user = JsonConvert.DeserializeObject<UserDTO>(content);
 
-                return RedirectToPage("/UserMenu", user);
+                HttpContext.Session.SetString(SessionKeyName, user.Name);
+                HttpContext.Session.SetString(SessionKeyId, user.Id.ToString());
+                return RedirectToPage("/UserMenu");
+
+                //return RedirectToPage("/UserMenu", user);
               
             }
             else

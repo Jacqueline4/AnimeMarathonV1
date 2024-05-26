@@ -5,6 +5,7 @@ using AnimeMarathon.Data.Repository.Base;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +31,12 @@ namespace AnimeMarathon.Data.Repository
             return genres;
 
 
+        }
+
+        public  async Task<IEnumerable<Genre>> GetAllWithAnimesAsync()
+        {
+            var genres = await dbContext.Genres.Include(x => x.AnimesGenre).ThenInclude(ag => ag.Anime).AsNoTracking().ToListAsync();
+            return genres; 
         }
     }
 }

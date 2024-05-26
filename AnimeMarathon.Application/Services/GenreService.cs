@@ -26,8 +26,9 @@ namespace AnimeMarathon.Application.Services
 
         public async Task<IEnumerable<GenreDTO>> GetGenreList()
         {
-            var genreList = await genreRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<GenreDTO>>(genreList); 
+            var genreList = await genreRepository.GetAllWithAnimesAsync();
+            var result =  _mapper.Map<IEnumerable<GenreDTO>>(genreList);
+            return result;
         }
         public async Task<IEnumerable<GenreDTO>> GetGenresByAnimeId(int animeId)
         {

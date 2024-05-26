@@ -1,9 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using AnimeMarahon.Core.Entities;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AnimeMarathon.Application.Services.DTOs
 {
     public class AnimeDTO : BaseDTO
     {
+
+
         [Column("Nombre")]
         public string Title { get; set; }
         [Column("Estado_emision")]
@@ -21,8 +24,31 @@ namespace AnimeMarathon.Application.Services.DTOs
         [Column("Descripcion")]
         public string? Description { get; set; }
         [Column("Total_episodios")]
-        public int TotalEpisodes { get; set; }
+        public int? TotalEpisodes { get; set; }
         [Column("PosterUrl")]
         public string posterImage { get; set; }
+
+        public IEnumerable<UserDTO> Users { get; set; }
+
+        public IEnumerable<IdNameDTO> Genres{ get; set; }
+
+        //todo quitar
+
+        public decimal? MiValoracion {  get; set; }
+
+    }
+
+    public class IdNameDTO : BaseDTO
+    {
+        public string Name { get; set; }
+
+    }
+
+    public class AnimeMinDTO : BaseDTO
+    {
+    
+        public string Title { get; set; }
+        public string posterImage { get; set; }
+
     }
 }

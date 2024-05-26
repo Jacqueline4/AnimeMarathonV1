@@ -38,7 +38,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAnimeService, AnimesService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddAutoMapper(System.Reflection.Assembly.GetAssembly(new AutoMapperDiscorveryProfile().GetType()));
+builder.Services.AddAutoMapper(System.Reflection.Assembly.GetAssembly(new AppMapperProfile().GetType()));
 
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
