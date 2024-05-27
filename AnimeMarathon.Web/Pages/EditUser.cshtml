@@ -6,21 +6,22 @@
 <h1>Editar Perfil</h1>
 
 <form method="post">
+   
     <div>
         <label for="Name">Nombre:</label>
-        <input type="text" id="Name" name="User.Name" value="@Model.User.Name" required />
+        <input type="text" id="Name" name="Name" value="@Model.User.Name" required />
     </div>
     <div>
         <label for="LastName">Apellidos:</label>
-        <input type="text" id="LastName" name="User.LastName" value="@Model.User.LastName" />
+        <input type="text" id="LastName" name="LastName" value="@Model.User.LastName" />
     </div>
     <div>
         <label for="Email">Email:</label>
-        <input type="email" id="Email" name="User.Email" value="@Model.User.Email" required />
+        <input type="email" id="Email" name="Email" value="@Model.User.Email" required />
     </div>
     <div>
         <label for="Password">Contraseña:</label>
-        <input type="password" id="Password" name="User.Password" value="@Model.User.Password" required />
+        <input type="password" id="Password" name="Password" value="@Model.User.Password" required />
     </div>
     <button type="submit">Guardar Cambios</button>
 </form>

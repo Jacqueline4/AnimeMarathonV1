@@ -5,35 +5,200 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
+@* <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-@*
-
-@{
-    ViewData["Title"] = "Login";
-}
-
-<div class="text-center">
-    <h1 class="display-4">Login</h1>
-    <form method="post">
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" class="form-control" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Login</button>
-    </form>
-    <div class="text-danger">
-        @TempData["Error"]
-    </div>
-
-    <div>
-        <p>¿Olvidaste tu contraseña? <a href="#">Haz clic aquí</a>.</p>
-        <p>¿No tienes una cuenta? <a href="./Register">Regístrate aquí</a>.</p>
-    </div>
 </div> *@
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>@ViewData["Title"]</h1>
+            <div class="float-right">
+                <a class="btn btn-primary" asp-page="/Login">Iniciar Sesión</a>
+            </div>
+            <p>Welcome to your home page.</p>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#searchForm" aria-expanded="false" aria-controls="searchForm">
+                Búsqueda Avanzada
+            </button>
+            <div class="collapse mt-3" id="searchForm">
+                <div class="card card-body">
+                    <form method="get" action="/SearchResults">
+                        <div class="form-group">
+                            <label for="searchTitle">Buscar por título de anime</label>
+                            <input type="text" class="form-control" id="searchTitle" name="searchTitle" placeholder="Título de anime">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="yearFrom">Desde</label>
+                                <input type="number" class="form-control" id="yearFrom" name="yearFrom" placeholder="Año">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="yearTo">Hasta</label>
+                                <input type="number" class="form-control" id="yearTo" name="yearTo" placeholder="Año">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="genre">Género</label>
+                            <select class="form-control" id="genre" name="genre">
+                                <option value="">Seleccione un género</option>
+                                @* Aquí puedes agregar opciones dinámicamente *@
+                               @*  @foreach (var genre in Model.Genres)
+                                {
+                                    <option value="@genre">@genre</option>
+                                } *@
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Categoría</label>
+                            <select class="form-control" id="category" name="category">
+                                <option value="">Seleccione una categoría</option>
+                                @* Aquí puedes agregar opciones dinámicamente *@
+                                @* @foreach (var category in Model.Categories)
+                                {
+                                    <option value="@category">@category</option>
+                                } *@
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="subtype">Subtipo</label>
+                            <select class="form-control" id="subtype" name="subtype">
+                                <option value="">Seleccione un subtipo</option>
+                                @* Aquí puedes agregar opciones dinámicamente *@
+                               @*  @foreach (var subtype in Model.Subtypes)
+                                {
+                                    <option value="@subtype">@subtype</option>
+                                } *@
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="pegi">PEGI</label>
+                            <select class="form-control" id="pegi" name="pegi">
+                                <option value="">Seleccione una clasificación PEGI</option>
+                                @* Aquí puedes agregar opciones dinámicamente *@
+                                @* @foreach (var pegi in Model.PegiRatings)
+                                {
+                                    <option value="@pegi">@pegi</option>
+                                } *@
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Buscar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    Géneros
+                </div>
+                <div class="card-body">
+                    <!-- Contenido de Géneros -->
+                    <div style="display: flex; flex-wrap: wrap;">
+                        @foreach (var genre in Model.Genres)
+                        {
+                            <div style="width: 200px; margin: 10px;">
+
+                                <div style="text-align: center;">@genre.Name</div>
+                               
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    Categorías
+                </div>
+                <div class="card-body">
+                    <!-- Contenido de Categorías -->
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    Formato
+                </div>
+                <div class="card-body">
+                    <!-- Contenido de Formato -->
+                    @foreach (var subtypeGroup in Model.AnimesGroupedBySubtype)
+                    {
+                        <div>
+                            <h4>@subtypeGroup.Key</h4>
+                            <div style="display: flex; flex-wrap: wrap;">
+                                @foreach (var anime in subtypeGroup.Value)
+                                {
+                                    <div style="width: 200px; margin: 10px;">
+                                        <a href="/AnimeDetail?id=@anime.Id">
+                                            <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" />
+                                            <div style="text-align: center;">@anime.Title</div>
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    Estado
+                </div>
+                <div class="card-body">
+                    <!-- Contenido de Estado -->
+                    @foreach (var statusGroup in Model.AnimesGroupedByStatus)
+                    {
+                        <div>
+                            <h4>@statusGroup.Key</h4>
+                            <div style="display: flex; flex-wrap: wrap;">
+                                @foreach (var anime in statusGroup.Value)
+                                {
+                                    <div style="width: 200px; margin: 10px;">
+                                        <a href="/AnimeDetail?id=@anime.Id">
+                                            <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" />
+                                            <div style="text-align: center;">@anime.Title</div>
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    Animes
+                </div>
+                <div class="card-body">
+                    <!-- Contenido de Animes -->
+                    <div style="display: flex; flex-wrap: wrap;">
+                        @foreach (var anime in Model.Animes)
+                        {
+                            <div style="width: 200px; margin: 10px;">
+                                <a href="/AnimeDetail?id=@anime.Id">
+                                    <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" />
+                                    <div style="text-align: center;">@anime.Title</div>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

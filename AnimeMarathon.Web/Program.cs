@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddHttpClient<LoginModel>();
-builder.Services.AddHttpClient<_UserMenuPartialModel>();
+builder.Services.AddHttpClient<EditUserModel>();
 builder.Services.AddHttpClient<UserMenuModel>(); // Registrar HttpClient para UserMenuModel
 builder.Services.AddHttpClient<AnimeDetailModel>();
 //// Register IHttpClientFactory -- se añade para que la pagina index redireccione a Login

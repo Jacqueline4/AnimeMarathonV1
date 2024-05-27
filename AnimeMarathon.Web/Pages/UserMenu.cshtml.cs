@@ -37,12 +37,12 @@ namespace AnimeMarathon.Web.Pages
             if (!string.IsNullOrEmpty(userIdString) && int.TryParse(userIdString, out var userId))
             {
 
-                var response = await _httpClient.GetAsync("https://localhost:7269/Anime");
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                Animes = JsonSerializer.Deserialize<List<AnimeDTO>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            }
+            //    var response = await _httpClient.GetAsync("https://localhost:7269/Anime");
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    var content = await response.Content.ReadAsStringAsync();
+            //    Animes = JsonSerializer.Deserialize<List<AnimeDTO>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            //}
 
             var response1 = await _httpClient.GetAsync($"https://localhost:7269/Anime/GetAnimeByUserId/{userId}");
             if (response1.IsSuccessStatusCode)

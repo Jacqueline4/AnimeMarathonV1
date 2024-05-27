@@ -2,66 +2,60 @@
 @model AnimeMarathon.Web.Pages.UserMenuModel
 @{
     ViewData["Title"] = "User Profile";
+    var userName = HttpContext.Session.GetString("_Name") ?? "Usuario";
+    var userId = HttpContext.Session.GetString("_Id");
 }
-<partial name="_UserMenuPartial" />
+@* <partial name="_UserMenuPartial" /> *@
 
-<div>
-    <h2>Hola de nuevo @HttpContext.Session.GetString("_Name")</h2>
+<div class="dropdown" style="float: right; margin-right: 20px;">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="userMenuDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        @userName
+    </button>
+    <div class="dropdown-menu" aria-labelledby="userMenuDropdown">
+        <a class="dropdown-item" href="/EditUser">Editar Perfil</a>
+        <a class="dropdown-item" href="/Login">Cerrar Sesión</a>
+    </div>
 </div>
-@* <div class="text-center">
-    <p>
-        <b>Name:</b> @HttpContext.Session.GetString("_Name")
-        <b>Id: </b>  @HttpContext.Session.GetString("_Id")
-    </p>
-</div> *@
-@* <div>
-    <h3>Mi lista de Animes:</h3>
-    <div style="display: flex; flex-wrap: wrap;">
-        @foreach (var animeUser in Model.UserAnimes)
+
+<div class="container">
+    <!-- Coloca aquí el contenido específico de UserMenu.cshtml -->
+    <div>
+        <h2>Hola de nuevo @HttpContext.Session.GetString("_Name")</h2>
+    </div>
+    <div>
+        <h3>Mi lista de Animes:</h3>
+        @foreach (var statusGroup in Model.UserAnimesGroupedByStatus)
         {
-            <div style="width: 200px; margin: 10px;">
-                <a href="/AnimeDetail?id=@animeUser.Id">
-                    <img src="@animeUser.posterImage" alt="@animeUser.Title Poster" style="max-width: 100%;" />
-                    <div style="text-align: center;">@animeUser.Title</div>
-                </a>
-            </div>           
+            <div>
+                <h4>@statusGroup.Key</h4>
+                <div style="display: flex; flex-wrap: wrap;">
+                    @foreach (var animeUser in statusGroup.Value)
+                    {
+                        <div style="width: 200px; margin: 10px;">
+                            <a href="/AnimeDetail?id=@animeUser.Id">
+                                <img src="@animeUser.posterImage" alt="@animeUser.Title Poster" style="max-width: 100%;" />
+                                <div style="text-align: center;">@animeUser.Title</div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
         }
     </div>
-</div> *@
-<div>
-    <h3>Mi lista de Animes:</h3>
-    @foreach (var statusGroup in Model.UserAnimesGroupedByStatus)
-    {
-        <div>
-            <h4>@statusGroup.Key</h4>
-            <div style="display: flex; flex-wrap: wrap;">
-                @foreach (var animeUser in statusGroup.Value)
-                {
-                    <div style="width: 200px; margin: 10px;">
-                        <a href="/AnimeDetail?id=@animeUser.Id">
-                            <img src="@animeUser.posterImage" alt="@animeUser.Title Poster" style="max-width: 100%;" />
-                            <div style="text-align: center;">@animeUser.Title</div>
-                        </a>
-                    </div>
-                }
-            </div>
+@* 
+    <div>
+        <h3>Animes:</h3>
+        <div style="display: flex; flex-wrap: wrap;">
+            @foreach (var anime in Model.Animes)
+            {
+                <div style="width: 200px; margin: 10px;">
+                    <a href="/AnimeDetail?id=@anime.Id">
+                        <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" />
+                        <div style="text-align: center;">@anime.Title</div>
+                    </a>
+                </div>
+            }
         </div>
-    }
+    </div> *@
 </div>
-
-<div>
-    <h3>Animes:</h3>
-    <div style="display: flex; flex-wrap: wrap;">
-        @foreach (var anime in Model.Animes)
-        {
-            <div style="width: 200px; margin: 10px;">
-                <a href="/AnimeDetail?id=@anime.Id">
-                    <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" />
-                    <div style="text-align: center;">@anime.Title</div>
-                </a>
-            </div>
-        }
-    </div>
-</div>
-
 
