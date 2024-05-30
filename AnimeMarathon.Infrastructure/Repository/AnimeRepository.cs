@@ -20,11 +20,28 @@ namespace AnimeMarathon.Data.Repository
         public async Task<IEnumerable<Anime>> GetAnimeByNameAsync(string animeName)
         {
             return await dbContext.Animes
-                //.Include(x => x.UsersAnime)
+                .Include(x => x.UsersAnime)
                 //.ThenInclude(x => x.Comments)
                 .AsNoTracking()
                 .Where(x => x.Title.Contains(animeName))
                 .ToListAsync();
+        }
+        public async Task<IEnumerable<Anime>> GetAnimeByCategoryAsync(string categoryName)
+        {
+
+            // Primero, obtenemos el ID de la categoria basado en su nombre
+            var category = await dbContext.Categories
+                .Include(x => x.AnimesCategory).ThenInclude(ac => ac.Anime)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(cat => cat.Name.Contains(categoryName));
+
+            if (category is not null)
+            {
+                //mapeo de animes
+                return category.AnimesCategory.Select(ac => ac.Anime);
+            }
+
+            return Enumerable.Empty<Anime>();
         }
         public async Task<IEnumerable<Anime>> GetAnimeByGenreAsync(string genreName)
         {
@@ -42,25 +59,8 @@ namespace AnimeMarathon.Data.Repository
             }
 
             return Enumerable.Empty<Anime>();
-
-
-            //if (genre == null)
-            //{
-            //    // Si el género no existe, retornamos una lista vacía
-            //    return new List<Anime>();
-            //}
-
-            //// Luego, buscamos los IDs de los animes que están asociados con este género
-            //var animeIds = await dbContext.AnimeGenre.AsNoTracking()
-            //                              .Where(ag => ag.GeneroId == genre.Id)
-            //                              .Select(ag => ag.AnimeId)
-            //                              .ToListAsync();
-
-            //// Finalmente, obtenemos los animes que tienen los IDs encontrados
-            //return await dbContext.Animes
-            //                        .Where(a => animeIds.Equals(a.Id))
-            //                        .ToListAsync();
         }
+
         public async Task<IEnumerable<Anime>> GetAnimeByRating(decimal rating)
         {
             return await dbContext.Animes.AsNoTracking()
@@ -70,22 +70,22 @@ namespace AnimeMarathon.Data.Repository
 
 
 
-        public async Task<IEnumerable<Anime>> GetAnimeByCategoryAsync(string categoryName)
-        {
-            var category = await dbContext.Categories.AsNoTracking().FirstOrDefaultAsync(g => g.Name.Contains(categoryName));
-            if (category == null)
-            {
-                return new List<Anime>();
-            }
-            var animeIds = await dbContext.AnimeCategories
-                                          .Where(ac => ac.CategoriaId == category.Id)
-                                          .Select(ac => ac.AnimeId)
-                                          .ToListAsync();
+        //public async Task<IEnumerable<Anime>> GetAnimeByCategoryAsync(string categoryName)
+        //{
+        //    var category = await dbContext.Categories.AsNoTracking().FirstOrDefaultAsync(g => g.Name.Contains(categoryName));
+        //    if (category == null)
+        //    {
+        //        return new List<Anime>();
+        //    }
+        //    var animeIds = await dbContext.AnimeCategories
+        //                                  .Where(ac => ac.CategoriaId == category.Id)
+        //                                  .Select(ac => ac.AnimeId)
+        //                                  .ToListAsync();
 
-            return await dbContext.Animes
-                                    .Where(a => animeIds.Equals(a.Id))
-                                    .ToListAsync();
-        }
+        //    return await dbContext.Animes
+        //                            .Where(a => animeIds.Equals(a.Id))
+        //                            .ToListAsync();
+        //}
         public async Task<IEnumerable<Anime>> GetAnimeByAgeRatingAsync(string ageRating)
         {
             return await dbContext.Animes

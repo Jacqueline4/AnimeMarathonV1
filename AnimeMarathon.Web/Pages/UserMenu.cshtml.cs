@@ -49,10 +49,18 @@ namespace AnimeMarathon.Web.Pages
             {
                 var content = await response1.Content.ReadAsStringAsync();
                 UserAnimes = JsonSerializer.Deserialize<List<AnimeDTO>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                    UserAnimesGroupedByStatus = UserAnimes.GroupBy(a => a.Subtype)
+                    UserAnimesGroupedByStatus = UserAnimes.GroupBy(a => a.Status)
                                                       .ToDictionary(g => g.Key, g => g.ToList());
                 }
-        }
+                //var response = await _httpClient.GetAsync($"https://localhost:7269/Anime/GetAnimeByName/{userId}");
+                //if (response.IsSuccessStatusCode)
+                //{
+                //    var content = await response.Content.ReadAsStringAsync();
+                //    UserAnimes = JsonSerializer.Deserialize<List<AnimeDTO>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                //    UserAnimesGroupedByStatus = UserAnimes.GroupBy(a => a.Status)
+                //                                      .ToDictionary(g => g.Key, g => g.ToList());
+                //}
+            }
             else
             {
                 _logger.LogWarning("Usuario no autenticado intentó acceder al menú de usuario.");

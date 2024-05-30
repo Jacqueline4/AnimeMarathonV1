@@ -86,7 +86,7 @@ namespace AnimeMarathon.Application.Services
             }
 
             //TODO take & skip desde front
-            var entities = await query.Take(10).Skip(0).ToListAsync();
+            var entities = await query.Take(12).Skip(0).ToListAsync();
             return _mapper.Map<IEnumerable<AnimeDTO>>(entities);
         }
         public async Task<IEnumerable<AnimeDTO>> GetAnimeByName(string animeName)
@@ -98,6 +98,11 @@ namespace AnimeMarathon.Application.Services
         public async Task<IEnumerable<AnimeDTO>> GetAnimeByGenre(string genre)
         {
             var animeList = await animeRepository.GetAnimeByGenreAsync(genre);
+            return _mapper.Map<IEnumerable<AnimeDTO>>(animeList);
+        }
+        public async Task<IEnumerable<AnimeDTO>> GetAnimeByCategory(string categoryName)
+        {
+            var animeList = await animeRepository.GetAnimeByCategoryAsync(categoryName);
             return _mapper.Map<IEnumerable<AnimeDTO>>(animeList);
         }
 
@@ -122,12 +127,18 @@ namespace AnimeMarathon.Application.Services
 
             }
         }
-
-        public async Task<IEnumerable<AnimeDTO>> GetAnimeList()
+        public async Task<IEnumerable<AnimeDTO>> GetAnimeList() 
         {
-            var animeList = await animeRepository.GetAllAsync();
+            var animeList = await animeRepository.GetAllAsync();           
             return _mapper.Map<IEnumerable<AnimeDTO>>(animeList);
         }
+
+        //public async Task<IEnumerable<AnimeDTO>> GetAnimeListPag(int pageNumber, int pageSize) 
+        //{
+        //    var animeList = await animeRepository.GetAllAsync();
+        //    var paginatedAnimeList = animeList.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+        //    return _mapper.Map<IEnumerable<AnimeDTO>>(paginatedAnimeList);
+        //}
 
         public async Task Update(AnimeDTO anime)
         {

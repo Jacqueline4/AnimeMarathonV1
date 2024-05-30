@@ -1,4 +1,4 @@
-﻿using AnimeMarahon.Core.Entities;
+﻿
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AnimeMarathon.Application.Services.DTOs

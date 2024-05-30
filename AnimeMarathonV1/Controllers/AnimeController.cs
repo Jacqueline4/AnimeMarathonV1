@@ -8,6 +8,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Drawing.Printing;
 
 namespace AnimeMarathonV1.Controllers
 {
@@ -27,11 +29,20 @@ namespace AnimeMarathonV1.Controllers
         [HttpGet]
         public async Task<IEnumerable<AnimeDTO>> Get()
         {
-            var list = await animeService.GetAnimeList();   
+            var list = await animeService.GetAnimeList();
             var mapped = mapper.Map<IEnumerable<AnimeDTO>>(list);
             return mapped;
-        
+
         }
+        //[HttpGet ("Paginate")]
+        //public async Task<ActionResult<IEnumerable<AnimeDTO>>> GetAnimes(int pageNumber, int pageSize)
+        //{
+        //    //pageSize += pageSize;
+        //    var animes = await animeService.GetAnimeListPag(pageNumber, pageSize);
+        //    var mapped = mapper.Map<IEnumerable<AnimeDTO>>(animes);
+        //    return Ok(mapped);
+        //}
+
         [HttpPost("GetAnimes")]
         public async Task<IEnumerable<AnimeDTO>> GetAnimesPost([FromBody] AnimeFilterDTO data)
         {  
@@ -84,6 +95,12 @@ namespace AnimeMarathonV1.Controllers
         {
             var anime = await animeService.GetAnimeByGenre(genre);
             //var mapped = mapper.Map<AnimeDTO>(anime);
+            return anime;
+        }
+        [HttpGet("GetAnimesByCategory/{categoryName}")]
+        public async Task<IEnumerable<AnimeDTO>> GetAnimeByCategory(string categoryName)
+        {
+            var anime = await animeService.GetAnimeByGenre(categoryName);
             return anime;
         }
 

@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Home page";
+    var nextPage = Model.AnimePageNumber + 1;
 }
 
 @* <div class="text-center">
@@ -15,9 +16,12 @@
     <div class="row">
         <div class="col-md-12">
             <h1>@ViewData["Title"]</h1>
-            <div class="float-right">
-                <a class="btn btn-primary" asp-page="/Login">Iniciar Sesión</a>
-            </div>
+
+            <ul class="navbar-nav d-flex justify-content-end">
+                <li class="nav-item">
+                    <a class="nav-link btn btn-primary text-white" asp-page="/Login">Iniciar Sesión</a>
+                </li>
+            </ul>
             <p>Welcome to your home page.</p>
         </div>
     </div>
@@ -48,10 +52,10 @@
                             <select class="form-control" id="genre" name="genre">
                                 <option value="">Seleccione un género</option>
                                 @* Aquí puedes agregar opciones dinámicamente *@
-                               @*  @foreach (var genre in Model.Genres)
+                                @foreach (var genre in Model.Genres)
                                 {
-                                    <option value="@genre">@genre</option>
-                                } *@
+                                    <option value="@genre.Name">@genre.Name</option>
+                                }
                             </select>
                         </div>
                         <div class="form-group">
@@ -59,10 +63,10 @@
                             <select class="form-control" id="category" name="category">
                                 <option value="">Seleccione una categoría</option>
                                 @* Aquí puedes agregar opciones dinámicamente *@
-                                @* @foreach (var category in Model.Categories)
+                                @foreach (var category in Model.Categories)
                                 {
-                                    <option value="@category">@category</option>
-                                } *@
+                                    <option value="@category.Name">@category.Name</option>
+                                }
                             </select>
                         </div>
                         <div class="form-group">
@@ -70,21 +74,23 @@
                             <select class="form-control" id="subtype" name="subtype">
                                 <option value="">Seleccione un subtipo</option>
                                 @* Aquí puedes agregar opciones dinámicamente *@
-                               @*  @foreach (var subtype in Model.Subtypes)
+                                @foreach (var subtype in Model.Animes.Select(a => a.Subtype).Distinct())
                                 {
                                     <option value="@subtype">@subtype</option>
-                                } *@
+                                }
                             </select>
                         </div>
+
+
                         <div class="form-group">
                             <label for="pegi">PEGI</label>
                             <select class="form-control" id="pegi" name="pegi">
                                 <option value="">Seleccione una clasificación PEGI</option>
                                 @* Aquí puedes agregar opciones dinámicamente *@
-                                @* @foreach (var pegi in Model.PegiRatings)
+                                @foreach (var pegi in Model.Animes.Select(a => a.AgeRating).Distinct())
                                 {
                                     <option value="@pegi">@pegi</option>
-                                } *@
+                                }
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Buscar</button>
@@ -96,32 +102,51 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card mb-4">
-                <div class="card-header">
+
+                <div class="card-header" data-toggle="collapse" href="#collapseGenre" role="button" aria-expanded="false" aria-controls="collapseGenre">
                     Géneros
                 </div>
-                <div class="card-body">
-                    <!-- Contenido de Géneros -->
-                    <div style="display: flex; flex-wrap: wrap;">
-                        @foreach (var genre in Model.Genres)
-                        {
-                            <div style="width: 200px; margin: 10px;">
+                <div class="collapse" id="collapseGenre">
+                    <div class="card-body">
+                        <!-- Contenido de Géneros -->
+                        <div style="display: flex; flex-wrap: wrap;">
+                            @foreach (var genre in Model.Genres)
+                            {
+                                <div style="width: 200px; margin: 10px;">
 
-                                <div style="text-align: center;">@genre.Name</div>
-                               
-                            </div>
-                        }
+                                    <a href="/AnimesByGenre?genreName=@genre.Name">
+                                       
+                                        <div style="text-align: center;">@genre.Name</div>
+                                    </a>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="col-md-12">
             <div class="card mb-4">
-                <div class="card-header">
+                <div class="card-header" data-toggle="collapse" href="#collapseCategory" role="button" aria-expanded="false" aria-controls="collapseCategory">
                     Categorías
                 </div>
-                <div class="card-body">
-                    <!-- Contenido de Categorías -->
+                <div class="collapse" id="collapseCategory">
+                    <div class="card-body">
+                        <!-- Contenido de Categorías -->
+                        <div style="display: flex; flex-wrap: wrap;">
+                            @foreach (var category in Model.Categories)
+                            {
+                                <div style="width: 200px; margin: 10px;">
+                                    <a href="/AnimesByCategory?categoryName=@category.Name">
 
+
+                                    <div style="text-align: center;">@category.Name</div>
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -134,21 +159,22 @@
                     <!-- Contenido de Formato -->
                     @foreach (var subtypeGroup in Model.AnimesGroupedBySubtype)
                     {
-                        <div>
+                        <div data-toggle="collapse" href="#collapse-@subtypeGroup.Key" role="button" aria-expanded="false" aria-controls="collapse-@subtypeGroup.Key">
                             <h4>@subtypeGroup.Key</h4>
-                            <div style="display: flex; flex-wrap: wrap;">
-                                @foreach (var anime in subtypeGroup.Value)
-                                {
-                                    <div style="width: 200px; margin: 10px;">
-                                        <a href="/AnimeDetail?id=@anime.Id">
-                                            <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" />
-                                            <div style="text-align: center;">@anime.Title</div>
-                                        </a>
-                                    </div>
-                                }
-                            </div>
+                        </div>
+                        <div class="collapse" id="collapse-@subtypeGroup.Key">
+                            @foreach (var anime in subtypeGroup.Value)
+                            {
+                                <div style="width: 200px; margin: 10px;">
+                                    <a href="/AnimeDetail?id=@anime.Id">
+                                        @* <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" /> *@
+                                        <div style="text-align: center;">@anime.Title</div>
+                                    </a>
+                                </div>
+                            }
                         </div>
                     }
+
                 </div>
             </div>
         </div>
@@ -161,19 +187,20 @@
                     <!-- Contenido de Estado -->
                     @foreach (var statusGroup in Model.AnimesGroupedByStatus)
                     {
-                        <div>
+                        <div data-toggle="collapse" href="#collapse-@statusGroup.Key" role="button" aria-expanded="false" aria-controls="collapse-@statusGroup.Key">
                             <h4>@statusGroup.Key</h4>
-                            <div style="display: flex; flex-wrap: wrap;">
-                                @foreach (var anime in statusGroup.Value)
-                                {
-                                    <div style="width: 200px; margin: 10px;">
-                                        <a href="/AnimeDetail?id=@anime.Id">
-                                            <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" />
-                                            <div style="text-align: center;">@anime.Title</div>
-                                        </a>
-                                    </div>
-                                }
-                            </div>
+
+                        </div>
+                        <div class="collapse" id="collapse-@statusGroup.Key">
+                            @foreach (var anime in statusGroup.Value)
+                            {
+                                <div style="width: 200px; margin: 10px;">
+                                    <a href="/AnimeDetail?id=@anime.Id">
+                                        @* <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" /> *@
+                                        <div style="text-align: center;">@anime.Title</div>
+                                    </a>
+                                </div>
+                            }
                         </div>
                     }
                 </div>
@@ -186,8 +213,10 @@
                 </div>
                 <div class="card-body">
                     <!-- Contenido de Animes -->
+                    
+                    <!-- Mostrar los animes -->
                     <div style="display: flex; flex-wrap: wrap;">
-                        @foreach (var anime in Model.Animes)
+                        @foreach (var anime in Model.AnimesPaginados)
                         {
                             <div style="width: 200px; margin: 10px;">
                                 <a href="/AnimeDetail?id=@anime.Id">
@@ -196,9 +225,16 @@
                                 </a>
                             </div>
                         }
+                        <a href="/Index?pageNumber=@nextPage">Ver mas</a>
                     </div>
+                   
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />

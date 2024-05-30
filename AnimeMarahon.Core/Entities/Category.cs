@@ -11,9 +11,12 @@ namespace AnimeMarahon.Core.Entities
     [Table("Categorias")]
     public class Category: BaseEntity
     {
+        public Category() { 
+            AnimesCategory= new HashSet<AnimeCategory>();
+        }
         [Column("Nombre")]
         public string? Name { get; set; }
 
-       
+        public virtual IEnumerable<AnimeCategory> AnimesCategory { get; set; }
     }
 }

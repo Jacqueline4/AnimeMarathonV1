@@ -38,14 +38,14 @@ namespace AnimeMarathon.Web.Pages
                 Anime = JsonSerializer.Deserialize<AnimeDTO>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             }
 
-            //https://localhost:7269/Genre/GetGenreByAnimeId/1
+            
             var genresResponse = await _httpClient.GetAsync($"https://localhost:7269/Genre/GetGenreByAnimeId/{id}");
             if (genresResponse.IsSuccessStatusCode)
             {
                 var commentsContent = await genresResponse.Content.ReadAsStringAsync();
                 Genres = JsonSerializer.Deserialize<List<GenreDTO>>(commentsContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             }
-            //https://localhost:7269/Category/GetCategoryByAnimeId/
+            
             var categoriesResponse = await _httpClient.GetAsync($"https://localhost:7269/Category/GetCategoryByAnimeId/{id}");
             if (categoriesResponse.IsSuccessStatusCode)
             {

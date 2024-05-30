@@ -13,7 +13,9 @@ namespace AnimeMarahon.Core.Entities
     {
         [ForeignKey("CategoriaId")]
         public int CategoriaId { get; set; }
+        public virtual Category Categoria { get; set; }
         [ForeignKey("AnimeId")]
         public int AnimeId { get; set; }
+        public virtual Anime Anime { get; set; }
     }
 }
