@@ -108,8 +108,9 @@ namespace AnimeMarathon.Data.Repository
         {
             var animes = await dbContext.Animes
                                     .Include(x => x.UsersAnime)
+                                      //  .ThenInclude(x => x.UsuarioId)
                                     .Include(x => x.AnimeRatings)
-                                    .Include(x => x.AnimeGenres).ThenInclude(x => x.Genero)
+                                    //.Include(x => x.AnimeGenres).ThenInclude(x => x.Genero)
                                     .AsNoTracking()
                                     .Where(a => a.UsersAnime.Select(ua => ua.UsuarioId).Contains(userId)).ToListAsync();
 
@@ -125,7 +126,9 @@ namespace AnimeMarathon.Data.Repository
         }
         public async Task<IEnumerable<Comment>> GetCommentsByAnimeId(int animeId)
         {
-            var comments = await dbContext.Comments.Where(c => c.AnimeId == animeId).ToListAsync();
+            var comments = await dbContext.Comments
+                                    .Include(x => x.User)
+                                    .Where(c => c.AnimeId == animeId).ToListAsync();
             return comments;
         }
 

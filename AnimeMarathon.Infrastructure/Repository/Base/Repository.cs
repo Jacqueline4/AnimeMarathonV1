@@ -57,10 +57,11 @@ namespace AnimeMarathon.Data.Repository.Base
             return await dbContext.Set<T>().FindAsync(id);
         }
 
-        public async Task UpdateAsync(T entity)
+        public async Task<T> UpdateAsync(T entity)
         {
             dbContext.Entry(entity).State = EntityState.Modified;
             await dbContext.SaveChangesAsync();
+            return entity;
         }
     }
 }

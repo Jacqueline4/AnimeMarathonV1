@@ -17,5 +17,6 @@ namespace AnimeMarathon.Application.Interfaces.Base
         Task<TDto> Create(TDto entity);
         Task<IEnumerable<TDto>> GetList();
         Task Delete(int id);
+        Task<TDto> Update(TDto entity);
     }
 }

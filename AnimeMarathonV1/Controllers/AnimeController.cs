@@ -47,7 +47,7 @@ namespace AnimeMarathonV1.Controllers
         public async Task<IEnumerable<AnimeDTO>> GetAnimesPost([FromBody] AnimeFilterDTO data)
         {  
              
-            var listByName = await animeService.GetAnimeFilteredGenric(data);
+            var listByName = await animeService.GetAnimeFilteredGeneric(data);
             var mappedByName = mapper.Map<IEnumerable<AnimeDTO>>(listByName);
             return mappedByName;
         }
@@ -111,6 +111,24 @@ namespace AnimeMarathonV1.Controllers
             var mapped = mapper.Map<IEnumerable<CommentDTO>>(comments);
             return mapped;
         }
+        [HttpGet("{userId}/{animeId}")]
+        public async Task<ActionResult<UsersAnimeDTO>> GetUsersAnimes(int userId, int animeId)
+        {
+            var userAnimes = await baseServices.GetList();
+
+            // Comprueba si la relación ya existe en la lista
+            var existingUserAnime = userAnimes.FirstOrDefault(ua => ua.UsuarioId == userId && ua.AnimeId == animeId);
+
+            if (existingUserAnime != null)
+            {
+                return existingUserAnime;
+            }
+            
+
+            // Devuelve un valor predeterminado en caso de que ninguna de las condiciones anteriores se cumpla
+            return NotFound();
+        }
+
 
 
         [HttpPost ("UserAnime")]
@@ -137,6 +155,19 @@ namespace AnimeMarathonV1.Controllers
             var entityDto = await animeService.Create(animeViewModel);
 
             var mappedViewModel = mapper.Map<AnimeDTO>(entityDto);
+            return mappedViewModel;
+        }
+        [HttpPut("UserAnime")]
+        public async Task<UsersAnimeDTO> UpdateStatusUserAnime(UsersAnimeDTO animeViewModel)
+        {
+           
+            var mapped = mapper.Map<UsersAnimes>(animeViewModel);
+            if (mapped == null)
+                throw new Exception($"Entity could not be mapped.");
+
+            var entityDto = await baseServices.Update(animeViewModel);
+
+            var mappedViewModel = mapper.Map<UsersAnimeDTO>(entityDto);
             return mappedViewModel;
         }
 

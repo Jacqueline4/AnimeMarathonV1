@@ -63,3 +63,30 @@ body {
         text-decoration: none;
         background-color: #f8f9fa;
     }
+/* Define un estilo para los elementos de anime */
+.anime-item {
+    width: 24%; /* Cada elemento ocupa el 25% del ancho del contenedor */
+    float: left; /* Alinea los elementos en una fila */
+    box-sizing: border-box; /* Incluye el padding y el borde en el ancho total */
+    padding: 8px; /* Añade espaciado entre los elementos */
+}
+
+/* Utiliza media queries para ajustar el diseño en diferentes tamaños de pantalla */
+@media (max-width: 768px) {
+    .anime-item {
+        width: 50%; /* Cambia a dos columnas en dispositivos con un ancho máximo de 768px */
+    }
+}
+
+@media (max-width: 576px) {
+    .anime-item {
+        width: 100%; /* Cambia a una columna en dispositivos con un ancho máximo de 576px */
+    }
+}
+
+.anime-item-group {
+    width: 50%; 
+    float: left;
+    box-sizing: border-box;
+    padding: 8px; 
+}

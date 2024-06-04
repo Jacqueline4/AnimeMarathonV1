@@ -6,33 +6,22 @@
     var nextPage = Model.AnimePageNumber + 1;
 }
 
-@* <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div> *@
-
-
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <h1>@ViewData["Title"]</h1>
 
-            <ul class="navbar-nav d-flex justify-content-end">
-                <li class="nav-item">
-                    <a class="nav-link btn btn-primary text-white" asp-page="/Login">Iniciar Sesión</a>
-                </li>
-            </ul>
-            <p>Welcome to your home page.</p>
         </div>
     </div>
     <div class="row mb-4">
         <div class="col-md-12">
-            <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#searchForm" aria-expanded="false" aria-controls="searchForm">
+            <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#searchFormCollapse" aria-expanded="false" aria-controls="searchFormCollapse">
                 Búsqueda Avanzada
             </button>
-            <div class="collapse mt-3" id="searchForm">
+            <div class="collapse mt-3" id="searchFormCollapse">
                 <div class="card card-body">
-                    <form method="get" action="/SearchResults">
+                    <form id="searchResultsForm" method="post">
+                        @*  method="post" asp-page="/SearchResults" *@
                         <div class="form-group">
                             <label for="searchTitle">Buscar por título de anime</label>
                             <input type="text" class="form-control" id="searchTitle" name="searchTitle" placeholder="Título de anime">
@@ -54,7 +43,7 @@
                                 @* Aquí puedes agregar opciones dinámicamente *@
                                 @foreach (var genre in Model.Genres)
                                 {
-                                    <option value="@genre.Name">@genre.Name</option>
+                                    <option value="@genre.Id">@genre.Name</option>
                                 }
                             </select>
                         </div>
@@ -65,7 +54,7 @@
                                 @* Aquí puedes agregar opciones dinámicamente *@
                                 @foreach (var category in Model.Categories)
                                 {
-                                    <option value="@category.Name">@category.Name</option>
+                                    <option value="@category.Id">@category.Name</option>
                                 }
                             </select>
                         </div>
@@ -98,9 +87,10 @@
                 </div>
             </div>
         </div>
+        @* <div id="searchResultsContainer"></div> *@
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 col-lg-4">
             <div class="card mb-4">
 
                 <div class="card-header" data-toggle="collapse" href="#collapseGenre" role="button" aria-expanded="false" aria-controls="collapseGenre">
@@ -115,7 +105,7 @@
                                 <div style="width: 200px; margin: 10px;">
 
                                     <a href="/AnimesByGenre?genreName=@genre.Name">
-                                       
+
                                         <div style="text-align: center;">@genre.Name</div>
                                     </a>
                                 </div>
@@ -126,7 +116,7 @@
             </div>
         </div>
 
-        <div class="col-md-12">
+        <div class="col-md-12  col-lg-8">
             <div class="card mb-4">
                 <div class="card-header" data-toggle="collapse" href="#collapseCategory" role="button" aria-expanded="false" aria-controls="collapseCategory">
                     Categorías
@@ -137,11 +127,11 @@
                         <div style="display: flex; flex-wrap: wrap;">
                             @foreach (var category in Model.Categories)
                             {
-                                <div style="width: 200px; margin: 10px;">
+                                <div class="anime-item-group">
                                     <a href="/AnimesByCategory?categoryName=@category.Name">
 
 
-                                    <div style="text-align: center;">@category.Name</div>
+                                        <div style="text-align: center;">@category.Name</div>
                                     </a>
                                 </div>
                             }
@@ -150,91 +140,137 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-12">
+       @*  <div class="col-md-12 col-lg-6">
             <div class="card mb-4">
-                <div class="card-header">
+                <div class="card-header" data-toggle="collapse" href="#collapseFormat" role="button" aria-expanded="false" aria-controls="collapseFormat">
                     Formato
                 </div>
-                <div class="card-body">
-                    <!-- Contenido de Formato -->
-                    @foreach (var subtypeGroup in Model.AnimesGroupedBySubtype)
-                    {
-                        <div data-toggle="collapse" href="#collapse-@subtypeGroup.Key" role="button" aria-expanded="false" aria-controls="collapse-@subtypeGroup.Key">
-                            <h4>@subtypeGroup.Key</h4>
-                        </div>
-                        <div class="collapse" id="collapse-@subtypeGroup.Key">
-                            @foreach (var anime in subtypeGroup.Value)
-                            {
-                                <div style="width: 200px; margin: 10px;">
-                                    <a href="/AnimeDetail?id=@anime.Id">
-                                        @* <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" /> *@
-                                        <div style="text-align: center;">@anime.Title</div>
-                                    </a>
-                                </div>
-                            }
-                        </div>
-                    }
+                <div class="collapse" id="collapseFormat">
+                    <div class="card-body">
 
+                        <!-- Contenido de Formato -->
+                        @foreach (var subtypeGroup in Model.AnimesGroupedBySubtype)
+                        {
+                            <div data-toggle="collapse" href="#collapse-@subtypeGroup.Key" role="button" aria-expanded="false" aria-controls="collapse-@subtypeGroup.Key">
+                                <h5>@subtypeGroup.Key</h5>
+                            </div>
+                            <div class="collapse" id="collapse-@subtypeGroup.Key">
+                                @foreach (var anime in subtypeGroup.Value)
+                                {
+                                    <div class="anime-item-group">
+                                        <a href="/AnimeDetail?id=@anime.Id">
+                                            <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" />
+                                            <div style="text-align: center;">@anime.Title</div>
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        }
+
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12 col-lg-6">
             <div class="card mb-4">
-                <div class="card-header">
+                <div class="card-header" data-toggle="collapse" href="#collapseStatus" role="button" aria-expanded="false" aria-controls="collapseStatus">
                     Estado
                 </div>
-                <div class="card-body">
-                    <!-- Contenido de Estado -->
-                    @foreach (var statusGroup in Model.AnimesGroupedByStatus)
-                    {
-                        <div data-toggle="collapse" href="#collapse-@statusGroup.Key" role="button" aria-expanded="false" aria-controls="collapse-@statusGroup.Key">
-                            <h4>@statusGroup.Key</h4>
+                <div class="collapse" id="collapseStatus">
+                    <div class="card-body">
+                        <!-- Contenido de Estado -->
+                        @foreach (var statusGroup in Model.AnimesGroupedByStatus)
+                        {
+                            <div data-toggle="collapse" href="#collapse-@statusGroup.Key" role="button" aria-expanded="false" aria-controls="collapse-@statusGroup.Key">
+                                <h5>@statusGroup.Key</h5>
 
-                        </div>
-                        <div class="collapse" id="collapse-@statusGroup.Key">
-                            @foreach (var anime in statusGroup.Value)
-                            {
-                                <div style="width: 200px; margin: 10px;">
-                                    <a href="/AnimeDetail?id=@anime.Id">
-                                        @* <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" /> *@
-                                        <div style="text-align: center;">@anime.Title</div>
-                                    </a>
-                                </div>
-                            }
-                        </div>
-                    }
+                            </div>
+                            <div class="collapse" id="collapse-@statusGroup.Key">
+                                @foreach (var anime in statusGroup.Value)
+                                {
+                                    <div style="width: 200px; margin: 10px;">
+                                        <a href="/AnimeDetail?id=@anime.Id">
+                                            <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" />
+                                            <div style="text-align: center;">@anime.Title</div>
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
+        </div> *@
         <div class="col-md-12">
-            <div class="card mb-4">
+            <div class="card mb-4" id="animeSection">
                 <div class="card-header">
                     Animes
+                    <a href="#animeSection" onclick="window.location.reload(true);" class="btn btn-primary btn-sm float-right">Ver todos</a>
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="searchResultsContainer">
                     <!-- Contenido de Animes -->
-                    
                     <!-- Mostrar los animes -->
                     <div style="display: flex; flex-wrap: wrap;">
                         @foreach (var anime in Model.AnimesPaginados)
                         {
-                            <div style="width: 200px; margin: 10px;">
+                            <div style="width: 220px; margin: 15px;">
                                 <a href="/AnimeDetail?id=@anime.Id">
                                     <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" />
                                     <div style="text-align: center;">@anime.Title</div>
                                 </a>
                             </div>
                         }
-                        <a href="/Index?pageNumber=@nextPage">Ver mas</a>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center">
+                                @if (Model.AnimePageNumber > 1)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="/Index?pageNumber=@(Model.AnimePageNumber - 1)">Anterior</a>
+                                    </li>
+                                }
+
+                                @if (Model.TotalPages > 0)
+                                {
+                                    @if (Model.AnimePageNumber > 3)
+                                    {
+                                        <li class="page-item">
+                                            <a class="page-link" href="/Index?pageNumber=1">1</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <span class="page-link">...</span>
+                                        </li>
+                                    }
+
+                                    @for (int i = Math.Max(1, Model.AnimePageNumber - 2); i <= Math.Min(Model.TotalPages, Model.AnimePageNumber + 2); i++)
+                                    {
+                                        <li class="page-item @(Model.AnimePageNumber == i ? "active" : "")">
+                                            <a class="page-link" href="/Index?pageNumber=@i">@i</a>
+                                        </li>
+                                    }
+
+                                    @if (Model.AnimePageNumber < Model.TotalPages - 2)
+                                    {
+                                        <li class="page-item">
+                                            <span class="page-link">...</span>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="/Index?pageNumber=@Model.TotalPages">@Model.TotalPages</a>
+                                        </li>
+                                    }
+                                }
+
+                                @if (Model.AnimePageNumber < Model.TotalPages)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="/Index?pageNumber=@(Model.AnimePageNumber + 1)">Siguiente</a>
+                                    </li>
+                                }
+                            </ul>
+                        </nav>
                     </div>
-                   
+
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+</div><script src="~/js/filter.js"></script>

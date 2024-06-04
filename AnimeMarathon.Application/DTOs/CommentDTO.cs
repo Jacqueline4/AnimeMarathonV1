@@ -18,6 +18,7 @@ namespace AnimeMarathon.Application.DTOs
         public int AnimeId { get; set; }
         [ForeignKey("UsuarioId")]
         public int UsuarioId { get; set; }
-       
+        public virtual UserDTO? User { get; set; }
+
     }
 }

@@ -1,4 +1,4 @@
-﻿
+﻿using AnimeMarahon.Core.Entities;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AnimeMarathon.Application.Services.DTOs
@@ -29,6 +29,7 @@ namespace AnimeMarathon.Application.Services.DTOs
         public string posterImage { get; set; }
 
         public IEnumerable<UserDTO> Users { get; set; }
+        public IEnumerable<UsersAnimeDTO> UserAnimes { get; set; }
 
         public IEnumerable<IdNameDTO> Genres{ get; set; }
 

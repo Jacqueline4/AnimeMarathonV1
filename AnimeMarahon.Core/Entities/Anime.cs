@@ -15,6 +15,7 @@ namespace AnimeMarahon.Core.Entities
 
             UsersAnime = new HashSet<UsersAnimes>();
             AnimeGenres = new HashSet<AnimeGenre>();
+            AnimeCategories = new HashSet<AnimeCategory>();
             AnimeRatings = new HashSet<Rating>();
         }  
 
@@ -44,7 +45,8 @@ namespace AnimeMarahon.Core.Entities
 
         public virtual IEnumerable<UsersAnimes> UsersAnime {  get; set; }
 
-        public virtual IEnumerable<AnimeGenre> AnimeGenres {  get; set; } 
+        public virtual IEnumerable<AnimeGenre> AnimeGenres {  get; set; }
+        public virtual IEnumerable<AnimeCategory> AnimeCategories { get; set; }
 
         public virtual IEnumerable<Rating> AnimeRatings { get; set; }
         

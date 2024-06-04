@@ -1,4 +1,45 @@
 ﻿@page
 @model AnimeMarathon.Web.Pages.AnimesByCategoryModel
 @{
+    ViewData["Title"] = "Categorias";
 }
+<h1>Animes relacionados con la categoria @Model.CategoryName</h1>
+<div>
+
+    <div class="card-header" data-toggle="collapse" href="#collapseCategory" role="button" aria-expanded="false" aria-controls="collapseCategory">
+        Categorias
+    </div>
+    <div class="collapse" id="collapseCategory">
+        <div class="card-body">
+           
+            <div style="display: flex; flex-wrap: wrap;">
+                @foreach (var category in Model.Categories)
+                {
+                    <div style="width: 200px; margin: 10px;">
+
+                        <a href="/AnimesByCategory?categoryName=@category.Name">
+
+                            <div style="text-align: center;">@category.Name</div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap;">
+        @foreach (var anime in Model.Animes)
+        {
+            <div style="width: 200px; margin: 10px;">
+                <a href="/AnimeDetail?id=@anime.Id">
+                    <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" />
+                    <div style="text-align: center;">@anime.Title</div>
+                </a>
+            </div>
+        }
+
+    </div>
+@*     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" /> *@

@@ -19,7 +19,7 @@ namespace AnimeMarathon.Web.Pages
         public List<GenreDTO> Genres { get; private set; }
         public List<CategoryDTO> Categories { get; private set; }
         public List<CommentDTO> Comments { get; private set; }
-        public string UserIdString { get; private set; }
+        //public string UserIdString { get; private set; }
 
         public AnimeDetailModel(HttpClient httpClient, ILogger<AnimeDetailModel> logger)
         {
@@ -29,7 +29,7 @@ namespace AnimeMarathon.Web.Pages
 
         public async Task OnGetAsync(int id)
         {
-            UserIdString = HttpContext.Session.GetString(SessionKeyId);
+            var UserIdString = HttpContext.Session.GetString(SessionKeyId);
 
             var animeResponse = await _httpClient.GetAsync($"https://localhost:7269/Anime/GetAnimeById/{id}");
             if (animeResponse.IsSuccessStatusCode)
@@ -62,7 +62,7 @@ namespace AnimeMarathon.Web.Pages
         }
         public async Task<IActionResult> OnPostAsync(string CommentString, int AnimeId)
         {
-            UserIdString = HttpContext.Session.GetString(SessionKeyId);
+            var UserIdString = HttpContext.Session.GetString(SessionKeyId);
             //UserIdString = UserId.ToString();
 
             if (!string.IsNullOrEmpty(UserIdString))
@@ -91,24 +91,92 @@ namespace AnimeMarathon.Web.Pages
             else
             {
                 ModelState.AddModelError(string.Empty, "Usuario no autenticado");
+                return RedirectToPage("/Login");
             }
 
             return Page();
         }
-       
+
+        //public async Task<IActionResult> OnPostAddToMyListAsync(int AnimeId, string Status)
+        //{
+        //    var UserIdString = HttpContext.Session.GetString(SessionKeyId);
+
+        //    if (!string.IsNullOrEmpty(UserIdString))
+        //    {
+        //        var userAnime = new
+        //        {
+        //            AnimeId = AnimeId,
+        //            UsuarioId = int.Parse(UserIdString),
+        //            Status = Status
+        //        };
+        //        var content = new StringContent(JsonSerializer.Serialize(userAnime), System.Text.Encoding.UTF8, "application/json");
+
+        //        var response = await _httpClient.PostAsync("https://localhost:7269/Anime/UserAnime", content);
+
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            _logger.LogInformation("Anime añadido a la lista del usuario correctamente.");
+        //            return RedirectToPage("/UserMenu");
+        //        }
+        //        else
+        //        {
+        //            _logger.LogError("Error al añadir el anime a la lista del usuario.");
+        //            ModelState.AddModelError(string.Empty, "Error al añadir el anime a la lista.");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        ModelState.AddModelError(string.Empty, "Usuario no autenticado");
+        //        return RedirectToPage("/Login");
+        //    }
+
+        //    return Page();
+        //}
+
         public async Task<IActionResult> OnPostAddToMyListAsync(int AnimeId, string Status)
         {
-            UserIdString = HttpContext.Session.GetString(SessionKeyId);
+            var UserIdString = HttpContext.Session.GetString(SessionKeyId);
 
             if (!string.IsNullOrEmpty(UserIdString))
             {
-                var userAnime = new
+                var userId = int.Parse(UserIdString);
+
+                // Verificar si ya existe un registro para este usuario y anime
+                var existingUserAnimeResponse = await _httpClient.GetAsync($"https://localhost:7269/Anime/{userId}/{AnimeId}");
+                if (existingUserAnimeResponse.IsSuccessStatusCode)
+                {
+                    var existingUserAnimeContent = await existingUserAnimeResponse.Content.ReadAsStringAsync();
+                    var existingUserAnime = JsonSerializer.Deserialize<UsersAnimeDTO>(existingUserAnimeContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                    if (existingUserAnime != null)
+                    {
+                        // Ya existe un registro, realiza la operación de actualización
+                        existingUserAnime.Status = Status;
+                        var contentUpdate = new StringContent(JsonSerializer.Serialize(existingUserAnime), System.Text.Encoding.UTF8, "application/json");
+                        var responseUpdate = await _httpClient.PutAsync("https://localhost:7269/Anime/UserAnime", contentUpdate);
+
+                        if (responseUpdate.IsSuccessStatusCode)
+                        {
+                            _logger.LogInformation("Estado de anime actualizado correctamente.");
+                            return RedirectToPage("/UserMenu");
+                        }
+                        else
+                        {
+                            _logger.LogError("Error al actualizar el estado del anime.");
+                            ModelState.AddModelError(string.Empty, "Error al actualizar el estado del anime.");
+                        }
+                    }
+                }
+
+
+                // No existe un registro, realiza la operación de inserción
+                var newUserAnime = new
                 {
                     AnimeId = AnimeId,
-                    UsuarioId = int.Parse(UserIdString),
+                    UsuarioId = userId,
                     Status = Status
                 };
-                var content = new StringContent(JsonSerializer.Serialize(userAnime), System.Text.Encoding.UTF8, "application/json");
+                var content = new StringContent(JsonSerializer.Serialize(newUserAnime), System.Text.Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.PostAsync("https://localhost:7269/Anime/UserAnime", content);
 
@@ -123,9 +191,15 @@ namespace AnimeMarathon.Web.Pages
                     ModelState.AddModelError(string.Empty, "Error al añadir el anime a la lista.");
                 }
             }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Usuario no autenticado");
+                return RedirectToPage("/Login");
+            }
 
             return Page();
         }
 
-        }
-   }
+
+    }
+}

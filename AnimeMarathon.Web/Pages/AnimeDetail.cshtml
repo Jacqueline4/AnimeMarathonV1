@@ -3,8 +3,7 @@
 @{
     ViewData["Title"] = "Anime Detail";
 }
-<partial name="_UserMenuPartial" />
-
+<div class="container">
 <h1>@Model.Anime.Title</h1>
 <div style="display: flex; flex-direction: row;">
     <img src="@Model.Anime.posterImage" alt="@Model.Anime.Title Poster" style="max-width: 50%;" />
@@ -96,11 +95,12 @@
     <ul>
         @foreach (var comment in Model.Comments)
         {
-            <li>@comment.CommentString - Escrito por: @comment.UsuarioId</li>
+            <li>@comment.DateTime Escrito por: @comment.User.Name -> @comment.CommentString</li>
             
         }
     </ul>
 </div>
 <div>
     <a href="/UserMenu" class="btn btn-primary">Volver al Menú</a>
+</div>
 </div>

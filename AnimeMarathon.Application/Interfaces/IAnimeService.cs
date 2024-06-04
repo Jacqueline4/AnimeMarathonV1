@@ -22,8 +22,8 @@ namespace AnimeMarathon.Application.Interfaces
         //Task Delete(Anime anime);
         Task Delete (int animeId);
         Task<IEnumerable<AnimeDTO>> GetAnimeByUser(int userId);
-        Task<IEnumerable<Comment>> GetCommentsByAnimeId(int animeId);
+        Task<IEnumerable<CommentDTO>> GetCommentsByAnimeId(int animeId);
 
-        Task<IEnumerable<AnimeDTO>> GetAnimeFilteredGenric(AnimeFilterDTO filtro);
+        Task<IEnumerable<AnimeDTO>> GetAnimeFilteredGeneric(AnimeFilterDTO filtro);
     }
 }

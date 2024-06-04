@@ -38,6 +38,7 @@ namespace AnimeMarathon.Data.Data
                 .HasMany(x => x.UserAnimes)
                 .WithOne(x => x.Ususario)
                 .HasForeignKey(x => x.UsuarioId);
+
             modelBuilder.Entity<User>()
                 .HasMany(x => x.UserRatings)
                 .WithOne(x => x.User)
@@ -54,6 +55,11 @@ namespace AnimeMarathon.Data.Data
                 .HasForeignKey(x => x.AnimeId);
 
             modelBuilder.Entity<Anime>()
+               .HasMany(x => x.AnimeCategories)
+               .WithOne(x => x.Anime)
+               .HasForeignKey(x => x.AnimeId);
+
+            modelBuilder.Entity<Anime>()
                 .HasMany(x => x.AnimeRatings)
                 .WithOne(x => x.Anime)
                 .HasForeignKey(x => x.AnimeId);
@@ -63,6 +69,16 @@ namespace AnimeMarathon.Data.Data
                 .WithOne(x => x.Genero)
                 .HasForeignKey(x => x.GeneroId);
 
+            modelBuilder.Entity<Category>()
+                .HasMany(x => x.AnimesCategory)
+                .WithOne(x => x.Categoria)
+                .HasForeignKey(x => x.CategoriaId);
+
+            modelBuilder.Entity<Comment>()
+           .HasOne(c => c.User)
+           .WithMany(u => u.Comments)
+           .HasForeignKey(c => c.UsuarioId) 
+           .OnDelete(DeleteBehavior.Restrict);
 
             //modelBuilder.Entity<BaseEntity>().HasKey(x => x.Id);
 

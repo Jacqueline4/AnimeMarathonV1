@@ -4,9 +4,9 @@
     ViewData["Title"] = "Editar Perfil";
 }
 <h1>Editar Perfil</h1>
-
-<form method="post">
-   
+<div class="container">
+<form id="editUserForm" method="post">
+    
     <div>
         <label for="Name">Nombre:</label>
         <input type="text" id="Name" name="Name" value="@Model.User.Name" required />
@@ -25,3 +25,5 @@
     </div>
     <button type="submit">Guardar Cambios</button>
 </form>
+</div>
+<script src="~/js/edit.js"></script>

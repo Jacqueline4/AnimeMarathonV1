@@ -50,11 +50,10 @@ namespace AnimeMarathon.Application.Services
             return _mapper.Map<AnimeDTO>(anime); ;
         }
 
-        public async Task<IEnumerable<AnimeDTO>> GetAnimeFilteredGenric(AnimeFilterDTO filtro)
+        public async Task<IEnumerable<AnimeDTO>> GetAnimeFilteredGeneric(AnimeFilterDTO filtro)
         {
             var query = animeRepository.GetAllQueryable()
-                .Include(x => x.AnimeGenres)
-                    .ThenInclude(x => x.Genero)
+                
                 //.Include(x => x.AnimeRatings)
                 .AsQueryable();
 
@@ -77,16 +76,34 @@ namespace AnimeMarathon.Application.Services
 
             if (filtro.GeneroId.HasValue)
             { 
-                query = query.Where(a => a.AnimeGenres.Select(g => g.GeneroId).Contains(filtro.GeneroId.Value));
+                query = query.Include(x => x.AnimeGenres)
+                    .ThenInclude(x => x.Genero)
+                    .Where(a => a.AnimeGenres
+                                    .Where(ag => ag.GeneroId == filtro.GeneroId.Value)
+                                    .Select(x => x.AnimeId).Distinct()
+                              .Contains(a.Id)).Distinct();
             }
-
-            if (filtro.Subtipo.HasValue)
+            if (filtro.CategoriaId.HasValue)
             {
-                query = query.Where(a => a.Subtype == filtro.GeneroId.Value.ToString()); //TODO subtipo = ENUM  =S quitar toString()
+                query = query
+                    .Include(x => x.AnimeCategories)
+                    .ThenInclude(x => x.Categoria)
+                    .Where(a => a.AnimeCategories
+                                    .Where(ag => ag.CategoriaId == filtro.CategoriaId.Value)
+                                    .Select(x => x.AnimeId).Distinct()
+                              .Contains(a.Id)).Distinct();
+            }
+            if (!string.IsNullOrEmpty(filtro.Subtipo))//filtro.Subtipo.HasValue
+            {
+                query = query.Where(a => a.Subtype.Contains(filtro.Subtipo)); //TODO subtipo = ENUM  =S quitar toString()
+            }
+            if (!string.IsNullOrEmpty(filtro.Pegi))
+            {
+                query = query.Where(a => a.AgeRating.Contains(filtro.Pegi));
             }
 
             //TODO take & skip desde front
-            var entities = await query.Take(12).Skip(0).ToListAsync();
+            var entities = await query.Take(24).Skip(0).ToListAsync();
             return _mapper.Map<IEnumerable<AnimeDTO>>(entities);
         }
         public async Task<IEnumerable<AnimeDTO>> GetAnimeByName(string animeName)
@@ -116,6 +133,10 @@ namespace AnimeMarathon.Application.Services
                 {
                     var model = _mapper.Map<AnimeDTO>(anime);
                     model.MiValoracion = anime.AnimeRatings.FirstOrDefault(x => x.UserId == userId)?.RatingVal;
+                    if (anime.UsersAnime != null && anime.UsersAnime.Any())
+                    {
+                        model.UserAnimes = _mapper.Map<IEnumerable<UsersAnimeDTO>>(anime.UsersAnime);
+                    }
                     result.Add(model);
                 }
                 return result;
@@ -162,10 +183,35 @@ namespace AnimeMarathon.Application.Services
 
             await animeRepository.UpdateAsync(editAnime);
         }
-        public async Task<IEnumerable<Comment>> GetCommentsByAnimeId(int animeId)
+        public async Task<IEnumerable<CommentDTO>> GetCommentsByAnimeId(int animeId)
         {
-            return await animeRepository.GetCommentsByAnimeId(animeId);
+            try
+            {
+                var comments = await animeRepository.GetCommentsByAnimeId(animeId);
+                var result = new List<CommentDTO>();
+
+                foreach (var comment in comments)
+                {
+                    var commentDTO = _mapper.Map<CommentDTO>(comment);
+
+                    // Mapear la información del usuario
+                    if (comment.User != null)
+                    {
+                        commentDTO.User = _mapper.Map<UserDTO>(comment.User);
+                    }
+
+                    result.Add(commentDTO);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception here if needed
+                return Enumerable.Empty<CommentDTO>();
+            }
         }
+
 
         private async Task ValidateAnimeIfExist(AnimeDTO anime)
         {

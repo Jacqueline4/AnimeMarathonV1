@@ -34,7 +34,10 @@ namespace AnimeMarathon.Application.Services.Mapper
             CreateMap<Genre, IdNameDTO>();
             CreateMap<Category, IdNameDTO>();
 
-            CreateMap<AnimeCategoryDTO, AnimeCategory>().ReverseMap(); //SObra
+            CreateMap<AnimeCategoryDTO, AnimeCategory>().ReverseMap();
+            CreateMap<UsersAnimes, UsersAnimeDTO>().ReverseMap();
+         
+
         }
 
 

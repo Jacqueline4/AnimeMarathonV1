@@ -15,6 +15,7 @@ namespace AnimeMarahon.Core.Entities
 
             UserAnimes = new HashSet<UsersAnimes>();
             UserRatings = new HashSet<Rating>();
+            Comments= new HashSet<Comment>();   
         }
 
 
@@ -29,6 +30,7 @@ namespace AnimeMarahon.Core.Entities
 
         public virtual IEnumerable<UsersAnimes> UserAnimes { get; set; }
         public virtual IEnumerable<Rating> UserRatings{ get; set; }
-        
+        public virtual IEnumerable<Comment> Comments { get; set; }
+
     }
 }

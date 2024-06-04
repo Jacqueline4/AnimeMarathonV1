@@ -1,5 +1,6 @@
 using AnimeMarathon.Web.Pages;
 using AnimeMarathon.Web.Pages.Shared;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddHttpClient<LoginModel>();
 builder.Services.AddHttpClient<EditUserModel>();
 builder.Services.AddHttpClient<UserMenuModel>(); // Registrar HttpClient para UserMenuModel
 builder.Services.AddHttpClient<AnimeDetailModel>();
+builder.Services.AddScoped<SessionModel>();
 //// Register IHttpClientFactory -- se añade para que la pagina index redireccione a Login
 //builder.Services.AddHttpClient();
 
@@ -21,7 +23,16 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddLogging();
+//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+//    .AddCookie(options =>
+//    {
+//        options.LoginPath = "/Login";
+//        options.LogoutPath = "/Logout";
+//    });
+
+//builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -38,6 +49,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+//app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseSession();

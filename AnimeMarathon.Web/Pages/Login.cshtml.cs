@@ -35,7 +35,7 @@ namespace AnimeMarathon.Web.Pages
 
             var request = new HttpRequestMessage(HttpMethod.Post, new Uri("https://localhost:7269/User/Login"))
             {
-                
+
             };
             var jsonStr = JsonConvert.SerializeObject(new UserViewDTO { Name = username, Password = password });
             var reqcontent = new StringContent(jsonStr, Encoding.UTF8, "application/json");
@@ -51,12 +51,12 @@ namespace AnimeMarathon.Web.Pages
                 return RedirectToPage("/UserMenu");
 
                 //return RedirectToPage("/UserMenu", user);
-              
+
             }
             else
             {
-               
-                ModelState.AddModelError(string.Empty,"Usuario o contraseña incorrectos");
+
+                ModelState.AddModelError(string.Empty, "Usuario o contraseña incorrectos");
                 return Page();
             }
         }

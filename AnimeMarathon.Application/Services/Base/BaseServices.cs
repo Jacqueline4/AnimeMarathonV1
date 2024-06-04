@@ -25,6 +25,26 @@ namespace AnimeMarathon.Application.Services.Base
             this.repository = repository;
             _mapper = mapper;
         }
+        public virtual async Task<TDto> Update(TDto entityDto)
+        {
+            if (entityDto == null)
+            {
+                throw new ArgumentNullException(nameof(entityDto), "The entity DTO cannot be null.");
+            }
+
+            // Map the DTO to the entity
+            TEntity entity = _mapper.Map<TEntity>(entityDto);
+
+            // Update the entity in the repository asynchronously
+            TEntity updatedEntity = await repository.UpdateAsync(entity);
+
+            // Map the updated entity back to a DTO
+            TDto updatedEntityDto = _mapper.Map<TDto>(updatedEntity);
+
+            // Return the updated DTO
+            return updatedEntityDto;
+
+        }
 
         public virtual async Task<TDto> Create(TDto entityDto)
         {

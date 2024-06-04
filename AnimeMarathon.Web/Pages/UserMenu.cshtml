@@ -2,60 +2,98 @@
 @model AnimeMarathon.Web.Pages.UserMenuModel
 @{
     ViewData["Title"] = "User Profile";
-    var userName = HttpContext.Session.GetString("_Name") ?? "Usuario";
-    var userId = HttpContext.Session.GetString("_Id");
+    var nextPage = Model.AnimePageNumber + 1;
 }
-@* <partial name="_UserMenuPartial" /> *@
-
-<div class="dropdown" style="float: right; margin-right: 20px;">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="userMenuDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        @userName
-    </button>
-    <div class="dropdown-menu" aria-labelledby="userMenuDropdown">
-        <a class="dropdown-item" href="/EditUser">Editar Perfil</a>
-        <a class="dropdown-item" href="/Login">Cerrar Sesión</a>
-    </div>
-</div>
 
 <div class="container">
-    <!-- Coloca aquí el contenido específico de UserMenu.cshtml -->
-    <div>
-        <h2>Hola de nuevo @HttpContext.Session.GetString("_Name")</h2>
-    </div>
     <div>
         <h3>Mi lista de Animes:</h3>
-        @foreach (var statusGroup in Model.UserAnimesGroupedByStatus)
-        {
-            <div>
-                <h4>@statusGroup.Key</h4>
-                <div style="display: flex; flex-wrap: wrap;">
-                    @foreach (var animeUser in statusGroup.Value)
-                    {
-                        <div style="width: 200px; margin: 10px;">
-                            <a href="/AnimeDetail?id=@animeUser.Id">
-                                <img src="@animeUser.posterImage" alt="@animeUser.Title Poster" style="max-width: 100%;" />
-                                <div style="text-align: center;">@animeUser.Title</div>
-                            </a>
-                        </div>
-                    }
-                </div>
-            </div>
-        }
-    </div>
-@* 
-    <div>
-        <h3>Animes:</h3>
-        <div style="display: flex; flex-wrap: wrap;">
-            @foreach (var anime in Model.Animes)
+
+        <div class="animeStatusContainer">
+            @foreach (var statusGroup in Model.UserAnimesGroupedByStatus)
             {
-                <div style="width: 200px; margin: 10px;">
-                    <a href="/AnimeDetail?id=@anime.Id">
-                        <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" />
-                        <div style="text-align: center;">@anime.Title</div>
-                    </a>
+
+                <div>
+                    <div class="card-header" data-toggle="collapse" href="#collapse-@statusGroup.Key" role="button" aria-expanded="false" aria-controls="collapse-@statusGroup.Key">
+                        @statusGroup.Key.Replace("-", " ")
+                        <div class="collapse" id="collapse-@statusGroup.Key">
+                            <div class="card-body">
+                                <div style="display: flex; flex-wrap: wrap;">
+                                    @foreach (var animeUser in statusGroup.Value)
+                                    {
+                                        <div style="width: 200px; margin: 10px;">
+                                            <a href="/AnimeDetail?id=@animeUser.Id">
+                                                <img src="@animeUser.posterImage" alt="@animeUser.Title Poster" style="max-width: 100%;" />
+                                                <div style="text-align: center;">@animeUser.Title</div>
+                                            </a>
+
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             }
         </div>
-    </div> *@
+
+        <div class="animeContainer">
+
+            <div class="card-header  d-flex justify-content-between align-items-center">
+                <span>Todos mis animes</span>
+                <form method="get" class="row">
+                    <div class="col-md-14">
+                        <select id="sortBy" name="sortBy" class="form-control" onchange="this.form.submit()">
+                            <option value="">Ordenar por:</option>
+                            <option value="Rating">Mi valoración</option>
+                            <option value="Title">Título</option>
+                            <option value="Date">Fecha de publicación</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-body">
+
+                <div style="display: flex; flex-wrap: wrap;">
+                    @foreach (var animes in Model.AnimesPaginados)
+                    {
+                        <div style="width: 200px; margin: 10px;">
+                            <a href="/AnimeDetail?id=@animes.Id">
+                                <img src="@animes.posterImage" alt="@animes.Title Poster" style="max-width: 100%;" />
+                                <div style="text-align: center;">@animes.Title</div>
+                            </a>
+                            <div>Mi puntuacion: @animes.MiValoracion</div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    @if (Model.AnimePageNumber > 1)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="/UserMenu?pageNumber=@(Model.AnimePageNumber - 1)">Anterior</a>
+                        </li>
+                    }
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(Model.AnimePageNumber == i ? "active" : "")">
+                            <a class="page-link" href="/UserMenu?pageNumber=@i">@i</a>
+                        </li>
+                    }
+                    @if (Model.AnimePageNumber < Model.TotalPages)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="/UserMenu?pageNumber=@(Model.AnimePageNumber + 1)">Siguiente</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+
 </div>
 

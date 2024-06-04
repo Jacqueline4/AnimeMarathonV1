@@ -18,7 +18,7 @@ namespace AnimeMarathon.Application.DTOs
         public int? GeneroId { get; set; }
         public int? CategoriaId { get; set; }
         public string? Pegi { get; set; } //TODO int
-        public int? Subtipo  { get; set; }
+        public string? Subtipo  { get; set; }
 
         //TOP, SKIP
         

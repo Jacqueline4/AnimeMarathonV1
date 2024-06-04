@@ -17,8 +17,9 @@ namespace AnimeMarahon.Core.Entities
         public string? CommentString { get; set; }
         [ForeignKey("AnimeId")]
         public int AnimeId { get; set; }
+        public virtual Anime Anime { get; set; }
         [ForeignKey("UsuarioId")]
         public int UsuarioId { get; set; }
-
+        public virtual User User { get; set; }
     }
 }
