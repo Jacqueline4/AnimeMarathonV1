@@ -11,16 +11,22 @@ using AnimeMarathon.Data.Repository.Base;
 using FluentAssertions.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System.Reflection;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "AnimeMarathonAPI", Version = "v1" });
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+});
 
 builder.Services.AddDbContext<AnimeMarathonContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AnimeMarathonConnection")));
@@ -32,7 +38,6 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
-//builder.Services.AddScoped(typeof(IBaseServices<>), typeof(BaseServices<>));
 builder.Services.AddScoped(typeof(IBaseServices<,>), typeof(BaseServices<,>));
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAnimeService, AnimesService>();
@@ -53,7 +58,6 @@ builder.Services.AddCors(options =>
 });
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -64,13 +68,10 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-// Habilitar CORS
 app.Use(async (context, next) =>
 {
-    // Agregar el encabezado Access-Control-Allow-Origin a todas las respuestas
     context.Response.Headers.Append("Access-Control-Allow-Origin", "https://localhost:7146");
 
-    // Continuar con el procesamiento de la solicitud
     await next();
 });
 

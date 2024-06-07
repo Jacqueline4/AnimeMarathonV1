@@ -21,7 +21,7 @@
             <div class="collapse mt-3" id="searchFormCollapse">
                 <div class="card card-body">
                     <form id="searchResultsForm" method="post">
-                        @*  method="post" asp-page="/SearchResults" *@
+
                         <div class="form-group">
                             <label for="searchTitle">Buscar por título de anime</label>
                             <input type="text" class="form-control" id="searchTitle" name="searchTitle" placeholder="Título de anime">
@@ -59,7 +59,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="subtype">Subtipo</label>
+                            <label for="subtype">Formato</label>
                             <select class="form-control" id="subtype" name="subtype">
                                 <option value="">Seleccione un subtipo</option>
                                 @* Aquí puedes agregar opciones dinámicamente *@
@@ -82,12 +82,23 @@
                                 }
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="status">Estado</label>
+                            <select class="form-control" id="status" name="status">
+                                <option value="">Seleccione una clasificación por estado</option>
+                                @* Aquí puedes agregar opciones dinámicamente *@
+                                @foreach (var status in Model.Animes.Select(a => a.Status).Distinct())
+                                {
+                                    <option value="@status">@status</option>
+                                }
+                            </select>
+                        </div>
                         <button type="submit" class="btn btn-primary">Buscar</button>
                     </form>
                 </div>
             </div>
         </div>
-        @* <div id="searchResultsContainer"></div> *@
+
     </div>
     <div class="row">
         <div class="col-md-12 col-lg-4">
@@ -140,66 +151,66 @@
                 </div>
             </div>
         </div>
-       @*  <div class="col-md-12 col-lg-6">
-            <div class="card mb-4">
-                <div class="card-header" data-toggle="collapse" href="#collapseFormat" role="button" aria-expanded="false" aria-controls="collapseFormat">
-                    Formato
-                </div>
-                <div class="collapse" id="collapseFormat">
-                    <div class="card-body">
+        @*  <div class="col-md-12 col-lg-6">
+        <div class="card mb-4">
+        <div class="card-header" data-toggle="collapse" href="#collapseFormat" role="button" aria-expanded="false" aria-controls="collapseFormat">
+        Formato
+        </div>
+        <div class="collapse" id="collapseFormat">
+        <div class="card-body">
 
-                        <!-- Contenido de Formato -->
-                        @foreach (var subtypeGroup in Model.AnimesGroupedBySubtype)
-                        {
-                            <div data-toggle="collapse" href="#collapse-@subtypeGroup.Key" role="button" aria-expanded="false" aria-controls="collapse-@subtypeGroup.Key">
-                                <h5>@subtypeGroup.Key</h5>
-                            </div>
-                            <div class="collapse" id="collapse-@subtypeGroup.Key">
-                                @foreach (var anime in subtypeGroup.Value)
-                                {
-                                    <div class="anime-item-group">
-                                        <a href="/AnimeDetail?id=@anime.Id">
-                                            <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" />
-                                            <div style="text-align: center;">@anime.Title</div>
-                                        </a>
-                                    </div>
-                                }
-                            </div>
-                        }
+        <!-- Contenido de Formato -->
+        @foreach (var subtypeGroup in Model.AnimesGroupedBySubtype)
+        {
+        <div data-toggle="collapse" href="#collapse-@subtypeGroup.Key" role="button" aria-expanded="false" aria-controls="collapse-@subtypeGroup.Key">
+        <h5>@subtypeGroup.Key</h5>
+        </div>
+        <div class="collapse" id="collapse-@subtypeGroup.Key">
+        @foreach (var anime in subtypeGroup.Value)
+        {
+        <div class="anime-item-group">
+        <a href="/AnimeDetail?id=@anime.Id">
+        <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" />
+        <div style="text-align: center;">@anime.Title</div>
+        </a>
+        </div>
+        }
+        </div>
+        }
 
-                    </div>
-                </div>
-            </div>
+        </div>
+        </div>
+        </div>
         </div>
         <div class="col-md-12 col-lg-6">
-            <div class="card mb-4">
-                <div class="card-header" data-toggle="collapse" href="#collapseStatus" role="button" aria-expanded="false" aria-controls="collapseStatus">
-                    Estado
-                </div>
-                <div class="collapse" id="collapseStatus">
-                    <div class="card-body">
-                        <!-- Contenido de Estado -->
-                        @foreach (var statusGroup in Model.AnimesGroupedByStatus)
-                        {
-                            <div data-toggle="collapse" href="#collapse-@statusGroup.Key" role="button" aria-expanded="false" aria-controls="collapse-@statusGroup.Key">
-                                <h5>@statusGroup.Key</h5>
+        <div class="card mb-4">
+        <div class="card-header" data-toggle="collapse" href="#collapseStatus" role="button" aria-expanded="false" aria-controls="collapseStatus">
+        Estado
+        </div>
+        <div class="collapse" id="collapseStatus">
+        <div class="card-body">
+        <!-- Contenido de Estado -->
+        @foreach (var statusGroup in Model.AnimesGroupedByStatus)
+        {
+        <div data-toggle="collapse" href="#collapse-@statusGroup.Key" role="button" aria-expanded="false" aria-controls="collapse-@statusGroup.Key">
+        <h5>@statusGroup.Key</h5>
 
-                            </div>
-                            <div class="collapse" id="collapse-@statusGroup.Key">
-                                @foreach (var anime in statusGroup.Value)
-                                {
-                                    <div style="width: 200px; margin: 10px;">
-                                        <a href="/AnimeDetail?id=@anime.Id">
-                                            <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" />
-                                            <div style="text-align: center;">@anime.Title</div>
-                                        </a>
-                                    </div>
-                                }
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
+        </div>
+        <div class="collapse" id="collapse-@statusGroup.Key">
+        @foreach (var anime in statusGroup.Value)
+        {
+        <div style="width: 200px; margin: 10px;">
+        <a href="/AnimeDetail?id=@anime.Id">
+        <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" />
+        <div style="text-align: center;">@anime.Title</div>
+        </a>
+        </div>
+        }
+        </div>
+        }
+        </div>
+        </div>
+        </div>
         </div> *@
         <div class="col-md-12">
             <div class="card mb-4" id="animeSection">

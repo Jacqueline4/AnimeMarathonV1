@@ -9,6 +9,7 @@
     const category = formData.get("category");
     const subtype = formData.get("subtype");
     const pegi = formData.get("pegi");
+    const status = formData.get("status");
 
     // Construir el objeto de filtros
     const filters = {};
@@ -30,9 +31,13 @@
     if (pegi) {
         filters["pegi"] = pegi;
     }
+    if (status) {
+        filters["estado"] = status;
+    }
     if (subtype) {
         filters["subtipo"] = subtype;
     }
+   
 
     console.log("Filtros enviados:", filters);
 

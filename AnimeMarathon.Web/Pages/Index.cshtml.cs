@@ -83,22 +83,10 @@ namespace AnimeMarathon.Web.Pages
                 var categoryNames = Categories.Select(category => category.Name).ToList();
             }
 
-            //var responseAnime = await _httpClient.GetAsync("https://localhost:7269/Anime");          
-            //if (responseAnime.IsSuccessStatusCode)
-            //{
-            //    var content = await responseAnime.Content.ReadAsStringAsync();
-            //    Animes = JsonSerializer.Deserialize<List<AnimeDTO>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });              
-            //    AnimesGroupedByStatus = Animes.GroupBy(a => a.Status)
-            //                                    .ToDictionary(g => g.Key, g => g.ToList());
-            //    AnimesGroupedBySubtype = Animes.GroupBy(a => a.Subtype)
-            //          .ToDictionary(g => g.Key, g => g.ToList());
-            //}
+         
 
 
-        }
-
-        /////////////https://localhost:7269/Anime/GetAnimes
-        ///Para el post de la busqueda avanzada
+        }    
 
     }
 }

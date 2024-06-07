@@ -35,8 +35,7 @@ namespace AnimeMarathon.Application.Services
         }
 
         public async Task Delete(int animeId)
-        {
-            //ValidateAnimeIfNotExist(anime);
+        {         
             var deletedAnime = await animeRepository.GetByIdAsync(animeId);
             if (deletedAnime == null)
                 throw new ApplicationException($"Entity could not be loaded.");
@@ -53,8 +52,6 @@ namespace AnimeMarathon.Application.Services
         public async Task<IEnumerable<AnimeDTO>> GetAnimeFilteredGeneric(AnimeFilterDTO filtro)
         {
             var query = animeRepository.GetAllQueryable()
-                
-                //.Include(x => x.AnimeRatings)
                 .AsQueryable();
 
             if (filtro is null)
@@ -83,6 +80,7 @@ namespace AnimeMarathon.Application.Services
                                     .Select(x => x.AnimeId).Distinct()
                               .Contains(a.Id)).Distinct();
             }
+
             if (filtro.CategoriaId.HasValue)
             {
                 query = query
@@ -93,16 +91,19 @@ namespace AnimeMarathon.Application.Services
                                     .Select(x => x.AnimeId).Distinct()
                               .Contains(a.Id)).Distinct();
             }
-            if (!string.IsNullOrEmpty(filtro.Subtipo))//filtro.Subtipo.HasValue
+            if (!string.IsNullOrEmpty(filtro.Subtipo))
             {
-                query = query.Where(a => a.Subtype.Contains(filtro.Subtipo)); //TODO subtipo = ENUM  =S quitar toString()
+                query = query.Where(a => a.Subtype.Contains(filtro.Subtipo));
+            }
+            if (!string.IsNullOrEmpty(filtro.Estado))
+            {
+                query = query.Where(a => a.Status.Contains(filtro.Estado));
             }
             if (!string.IsNullOrEmpty(filtro.Pegi))
             {
                 query = query.Where(a => a.AgeRating.Contains(filtro.Pegi));
             }
-
-            //TODO take & skip desde front
+            
             var entities = await query.Take(24).Skip(0).ToListAsync();
             return _mapper.Map<IEnumerable<AnimeDTO>>(entities);
         }
@@ -194,20 +195,17 @@ namespace AnimeMarathon.Application.Services
                 {
                     var commentDTO = _mapper.Map<CommentDTO>(comment);
 
-                    // Mapear la información del usuario
                     if (comment.User != null)
                     {
                         commentDTO.User = _mapper.Map<UserDTO>(comment.User);
                     }
-
                     result.Add(commentDTO);
                 }
 
                 return result;
             }
             catch (Exception ex)
-            {
-                // Log the exception here if needed
+            {                
                 return Enumerable.Empty<CommentDTO>();
             }
         }

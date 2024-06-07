@@ -19,10 +19,11 @@ namespace AnimeMarathon.Application.DTOs
         public int? CategoriaId { get; set; }
         public string? Pegi { get; set; } //TODO int
         public string? Subtipo  { get; set; }
+        public string? Estado { get; set; }
 
         //TOP, SKIP
-        
-        
+
+
     }
 
     public class PaginationDto

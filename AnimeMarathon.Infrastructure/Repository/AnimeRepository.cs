@@ -107,12 +107,24 @@ namespace AnimeMarathon.Data.Repository
         public async Task<IEnumerable<Anime>> GetAnimeByUserAsync(int userId)
         {
             var animes = await dbContext.Animes
-                                    .Include(x => x.UsersAnime)
-                                      //  .ThenInclude(x => x.UsuarioId)
-                                    .Include(x => x.AnimeRatings)
-                                    //.Include(x => x.AnimeGenres).ThenInclude(x => x.Genero)
-                                    .AsNoTracking()
-                                    .Where(a => a.UsersAnime.Select(ua => ua.UsuarioId).Contains(userId)).ToListAsync();
+                                .Include(a => a.UsersAnime)
+                                .Include(a => a.AnimeRatings)
+                                
+                                .Where(a => dbContext.UsersAnimes
+                                    .Any(u => u.UsuarioId == userId && u.AnimeId == a.Id))
+                                .OrderBy(a => a.Id)
+                                .ToListAsync();
+            //    .Include(x => x.UsersAnime)
+            //    //  .ThenInclude(x => x.UsuarioId)
+            //    .Include(x => x.AnimeRatings)
+            //    //.Include(x => x.AnimeGenres).ThenInclude(x => x.Genero)
+            //    .AsNoTracking()
+            //    //.Where(a => a.UsersAnime.Select(ua => ua.UsuarioId).Contains(userId)).ToListAsync();
+            //    .Where(a => a.UsersAnime.Any(ua => ua.UsuarioId == userId))
+            //.ToListAsync();
+
+
+
 
             return animes ?? Enumerable.Empty<Anime>();
             //var animeIds = await dbContext.UsersAnimes

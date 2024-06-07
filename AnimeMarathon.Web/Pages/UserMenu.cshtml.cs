@@ -48,15 +48,11 @@ namespace AnimeMarathon.Web.Pages
                         foreach (var userAnime in anime.UserAnimes)
                         {
                             var status = userAnime.Status.Replace(" ", "-");
-
-                            // Verifica si ya existe una entrada para este estado en el diccionario
+                                                     
                             if (!UserAnimesGroupedByStatus.ContainsKey(status))
                             {
-                                // Si no existe, crea una nueva lista para este estado
-                                UserAnimesGroupedByStatus[status] = new List<AnimeDTO>();
+                              UserAnimesGroupedByStatus[status] = new List<AnimeDTO>();
                             }
-
-                            // Agrega el userAnime a la lista correspondiente
                             UserAnimesGroupedByStatus[status].Add(anime);
                         }
                     }

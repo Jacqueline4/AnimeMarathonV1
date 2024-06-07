@@ -4,26 +4,28 @@
     ViewData["Title"] = "Editar Perfil";
 }
 <h1>Editar Perfil</h1>
-<div class="container">
+<div class="form-container">
 <form id="editUserForm" method="post">
-    
+        <input type="hidden" name="id" value="@Model.User.Id" />
     <div>
         <label for="Name">Nombre:</label>
-        <input type="text" id="Name" name="Name" value="@Model.User.Name" required />
+        <input type="text" id="Name" name="name" value="@Model.User.Name" required />
     </div>
     <div>
         <label for="LastName">Apellidos:</label>
-        <input type="text" id="LastName" name="LastName" value="@Model.User.LastName" />
+        <input type="text" id="LastName" name="lastName" value="@Model.User.LastName" />
     </div>
     <div>
         <label for="Email">Email:</label>
-        <input type="email" id="Email" name="Email" value="@Model.User.Email" required />
+        <input type="email" id="Email" name="email" value="@Model.User.Email" required />
     </div>
     <div>
         <label for="Password">Contraseña:</label>
-        <input type="password" id="Password" name="Password" value="@Model.User.Password" required />
+        <input type="password" id="Password" name="password" value="@Model.User.Password" required />
     </div>
     <button type="submit">Guardar Cambios</button>
 </form>
+    <a class="dropdown-item" id="deleteAccountBtn" data-userid=@Model.User.Id>Borrar Cuenta</a>
 </div>
 <script src="~/js/edit.js"></script>
+<script src="~/js/delete.js"></script>

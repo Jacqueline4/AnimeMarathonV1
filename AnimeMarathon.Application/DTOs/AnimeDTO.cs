@@ -28,12 +28,10 @@ namespace AnimeMarathon.Application.Services.DTOs
         [Column("PosterUrl")]
         public string posterImage { get; set; }
 
-        public IEnumerable<UserDTO> Users { get; set; }
-        public IEnumerable<UsersAnimeDTO> UserAnimes { get; set; }
+        public IEnumerable<UserDTO>? Users { get; set; }
+        public IEnumerable<UsersAnimeDTO>? UserAnimes { get; set; }
 
-        public IEnumerable<IdNameDTO> Genres{ get; set; }
-
-        //todo quitar
+        public IEnumerable<IdNameDTO>? Genres{ get; set; }
 
         public decimal? MiValoracion {  get; set; }
 

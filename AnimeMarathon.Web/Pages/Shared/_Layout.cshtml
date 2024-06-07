@@ -38,10 +38,7 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
+                        </li>                      
                     </ul>
                     <ul class="navbar-nav ml-auto">
                         @if (!string.IsNullOrEmpty(userId))
@@ -51,7 +48,7 @@
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="userMenuDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    @userName
+                                   @userName
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="userMenuDropdown">
                                     <a class="dropdown-item" asp-page="/EditUser">Editar Perfil</a>
@@ -81,7 +78,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2024 - AnimeMarathon.Web - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2024 - AnimeMarathon.Web 
         </div>
     </footer>
 
