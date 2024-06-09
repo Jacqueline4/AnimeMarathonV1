@@ -65,10 +65,12 @@ body {
     }
 /* Define un estilo para los elementos de anime */
 .anime-item {
+    width:210px;
+    height:350px;
     width: 24%; /* Cada elemento ocupa el 25% del ancho del contenedor */
     float: left; /* Alinea los elementos en una fila */
     box-sizing: border-box; /* Incluye el padding y el borde en el ancho total */
-    padding: 8px; /* Añade espaciado entre los elementos */
+    padding: 22px; /* Añade espaciado entre los elementos */
 }
 
 /* Utiliza media queries para ajustar el diseño en diferentes tamaños de pantalla */
@@ -134,3 +136,38 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
+.comment-section {    
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.comment-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.comment-item {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+.comment-author {
+    color: #007bff; /* Color del nombre de usuario */
+}
+
+.comment-body {
+    margin-top: 5px;
+}
+
+    .comment-body.collapsed {
+        display: none;
+    }

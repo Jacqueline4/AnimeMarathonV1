@@ -4,7 +4,6 @@
 // Write your JavaScript code.
 document.getElementById("loginForm").addEventListener("submit", async function (event) {
     event.preventDefault();
-    // alert("Script ejecutándose");
 
     const formData = new FormData(event.target);
     const username = formData.get("username");
@@ -22,17 +21,13 @@ document.getElementById("loginForm").addEventListener("submit", async function (
     }).then(response => {
 
         if (response.ok) {
-            window.location.href = "/UserMenu/" + username; // Redireccionar al usuario a la página principal si la autenticación es exitosa
+            window.location.href = "/UserMenu/" + username; 
             sessionStorage.setItem("me", JSON.stringify(response.data));
-            /////EN paginas del usuarion
-            //var yo = sessionStorage.getItem("me");
-            //if (!yo) {
-            //    window.location.href = "/Login";
-            //}
+         
         } else {
             const data = await response.json();
-            document.getElementById("errorMessage").innerText = data.error; // Mostrar mensaje de error en caso de fallo de autenticación
-            // console.log("Respuesta del servidor:", data);
+            document.getElementById("errorMessage").innerText = data.error; 
+           
         }        
     }).error(err => {
           //Con el throw de back

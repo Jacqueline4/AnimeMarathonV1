@@ -7,7 +7,7 @@ namespace AnimeMarathon.Application.Services.DTOs
         [Column("Nombre")]
         public string? Name { get; set; }
 
-        public IEnumerable<AnimeMinDTO> Animes { get; set; }
+        public IEnumerable<AnimeMinDTO>? Animes { get; set; }
 
     }
 }

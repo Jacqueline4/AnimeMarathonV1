@@ -46,13 +46,13 @@ namespace AnimeMarathon.Application.Services
         }
         public async Task Update(GenreDTO genre)
         {
-            ValidateGenreIfNotExist(genre);
+            //ValidateGenreIfNotExist(genre);
 
             var editGenre = await genreRepository.GetByIdAsync(genre.Id);
             if (editGenre == null)
                 throw new ApplicationException($"Entity could not be loaded.");
 
-            editGenre.Id = genre.Id;
+            //editGenre.Id = genre.Id;
             editGenre.Name = genre.Name;          
 
             await genreRepository.UpdateAsync(editGenre);

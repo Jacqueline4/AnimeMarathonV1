@@ -11,11 +11,11 @@ namespace AnimeMarathon.Application.Services.DTOs
         [ForeignKey("GeneroId")]
         public int GeneroId { get; set; }
 
-        public virtual GenreDTO Genero { get; set; }
+        public virtual GenreDTO? Genero { get; set; }
 
         [ForeignKey("AnimeId")]
         public int AnimeId { get; set; }
-        public virtual AnimeDTO Anime { get; set; }
+        public virtual AnimeDTO? Anime { get; set; }
 
     }
 }

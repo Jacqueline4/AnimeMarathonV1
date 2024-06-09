@@ -17,7 +17,9 @@ namespace AnimeMarathon.Application.Services.Mapper
             CreateMap<Anime, AnimeDTO>()
                 .ForMember(dest => dest.Genres, opt => opt.MapFrom(ori => ori.AnimeGenres.Select(x => x.Genero)))
                 .ReverseMap();
-
+            CreateMap<Anime, AnimeDTO>()
+               .ForMember(dest => dest.Categories, opt => opt.MapFrom(ori => ori.AnimeCategories.Select(x => x.Categoria)))
+               .ReverseMap();
 
             CreateMap<Anime, AnimeMinDTO>();
             
@@ -34,9 +36,15 @@ namespace AnimeMarathon.Application.Services.Mapper
             CreateMap<Genre, IdNameDTO>();
             CreateMap<Category, IdNameDTO>();
 
+            CreateMap<Category, CategoryDTO>()
+               .ForMember(dest => dest.Animes, opt => opt.MapFrom(ori => ori.AnimesCategory.Select(x => x.Anime)))
+
+               .ReverseMap()
+               ;
             CreateMap<AnimeCategoryDTO, AnimeCategory>().ReverseMap();
             CreateMap<UsersAnimes, UsersAnimeDTO>().ReverseMap();
-         
+            CreateMap<AnimeGenreDTO, AnimeGenre>().ReverseMap();
+
 
         }
 

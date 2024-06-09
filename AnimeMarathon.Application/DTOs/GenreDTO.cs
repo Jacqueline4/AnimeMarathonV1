@@ -8,6 +8,6 @@ namespace AnimeMarathon.Application.Services.DTOs
          
         public string? Name { get; set; }
 
-        public IEnumerable<AnimeMinDTO> Animes{ get; set; }
+        public IEnumerable<AnimeMinDTO>? Animes{ get; set; }
     }
 }

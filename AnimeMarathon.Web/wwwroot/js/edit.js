@@ -17,6 +17,7 @@
 
         window.location.href = "/Login"; 
     } else {
+        document.getElementById("errorMessage").innerText = "Usuario o contraseña duplicados";
         const data = await response.json();
         document.getElementById("errorMessage").innerText = data.error;
     }

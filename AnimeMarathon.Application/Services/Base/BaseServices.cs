@@ -63,12 +63,7 @@ namespace AnimeMarathon.Application.Services.Base
                 var userAnime = entityDto as UsersAnimeDTO;
                 userAnime.Id = GenerateCompositeId(userAnime.AnimeId, userAnime.UsuarioId);
             }
-            else if (entityDto is UsersRatingsDTO)
-            {
-                var userRating = entityDto as UsersRatingsDTO;
-                userRating.Id = GenerateCompositeId(userRating.UsuarioId, userRating.RatingId);
-            }
-
+           
 
             TEntity entity = _mapper.Map<TEntity>(entityDto);
             TEntity newEntity = await repository.AddAsync(entity);

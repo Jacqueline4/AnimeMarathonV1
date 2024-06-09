@@ -170,7 +170,7 @@ namespace AnimeMarathonV1.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IEnumerable<AnimeDTO>> GetAnimeByCategory(string categoryName)
         {
-            var anime = await animeService.GetAnimeByGenre(categoryName);
+            var anime = await animeService.GetAnimeByCategory(categoryName);
             return anime;
         }
         /// <summary>

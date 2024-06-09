@@ -23,9 +23,12 @@
         <label for="Password">Contraseña:</label>
         <input type="password" id="Password" name="password" value="@Model.User.Password" required />
     </div>
+    <div id="errorMessage" style="color: red;"></div>
     <button type="submit">Guardar Cambios</button>
 </form>
+<br/>
     <a class="dropdown-item" id="deleteAccountBtn" data-userid=@Model.User.Id>Borrar Cuenta</a>
+
 </div>
 <script src="~/js/edit.js"></script>
 <script src="~/js/delete.js"></script>

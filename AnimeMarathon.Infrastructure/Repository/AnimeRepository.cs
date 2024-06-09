@@ -29,7 +29,7 @@ namespace AnimeMarathon.Data.Repository
         public async Task<IEnumerable<Anime>> GetAnimeByCategoryAsync(string categoryName)
         {
 
-            // Primero, obtenemos el ID de la categoria basado en su nombre
+
             var category = await dbContext.Categories
                 .Include(x => x.AnimesCategory).ThenInclude(ac => ac.Anime)
                 .AsNoTracking()
@@ -46,7 +46,7 @@ namespace AnimeMarathon.Data.Repository
         public async Task<IEnumerable<Anime>> GetAnimeByGenreAsync(string genreName)
         {
 
-            // Primero, obtenemos el ID del género basado en su nombre
+
             var genre = await dbContext.Genres
                 .Include(x => x.AnimesGenre).ThenInclude(ag => ag.Anime)
                 .AsNoTracking()
@@ -70,22 +70,6 @@ namespace AnimeMarathon.Data.Repository
 
 
 
-        //public async Task<IEnumerable<Anime>> GetAnimeByCategoryAsync(string categoryName)
-        //{
-        //    var category = await dbContext.Categories.AsNoTracking().FirstOrDefaultAsync(g => g.Name.Contains(categoryName));
-        //    if (category == null)
-        //    {
-        //        return new List<Anime>();
-        //    }
-        //    var animeIds = await dbContext.AnimeCategories
-        //                                  .Where(ac => ac.CategoriaId == category.Id)
-        //                                  .Select(ac => ac.AnimeId)
-        //                                  .ToListAsync();
-
-        //    return await dbContext.Animes
-        //                            .Where(a => animeIds.Equals(a.Id))
-        //                            .ToListAsync();
-        //}
         public async Task<IEnumerable<Anime>> GetAnimeByAgeRatingAsync(string ageRating)
         {
             return await dbContext.Animes
@@ -107,13 +91,11 @@ namespace AnimeMarathon.Data.Repository
         public async Task<IEnumerable<Anime>> GetAnimeByUserAsync(int userId)
         {
             var animes = await dbContext.Animes
-                                .Include(a => a.UsersAnime)
-                                .Include(a => a.AnimeRatings)
-                                
-                                .Where(a => dbContext.UsersAnimes
-                                    .Any(u => u.UsuarioId == userId && u.AnimeId == a.Id))
-                                .OrderBy(a => a.Id)
-                                .ToListAsync();
+                                .Include(x => x.UsersAnime.Where(ua => ua.UsuarioId == userId))
+        .Include(x => x.AnimeRatings)
+        .AsNoTracking()
+        .Where(a => a.UsersAnime.Any(ua => ua.UsuarioId == userId))
+        .ToListAsync();
             //    .Include(x => x.UsersAnime)
             //    //  .ThenInclude(x => x.UsuarioId)
             //    .Include(x => x.AnimeRatings)
@@ -123,18 +105,8 @@ namespace AnimeMarathon.Data.Repository
             //    .Where(a => a.UsersAnime.Any(ua => ua.UsuarioId == userId))
             //.ToListAsync();
 
-
-
-
             return animes ?? Enumerable.Empty<Anime>();
-            //var animeIds = await dbContext.UsersAnimes
-            //                              .Where(ac => ac.UsuarioId == userId)
-            //                              .Select(ac => ac.AnimeId)
-            //                              .ToListAsync();
-
-            //return await dbContext.Animes
-            //                        .Where(a => animeIds.Contains(a.Id))
-            //                        .ToListAsync();
+         
         }
         public async Task<IEnumerable<Comment>> GetCommentsByAnimeId(int animeId)
         {
