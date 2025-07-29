@@ -11,11 +11,9 @@ namespace AnimeMarathonV1.Controllers
     [Route("[controller]")]
     public class AnimeGenreController : ControllerBase
     {
-        private readonly IMapper mapper;
         private readonly IBaseServices<AnimeGenreDTO,AnimeGenre> baseServices;
-        public AnimeGenreController(IMapper mapper, IBaseServices<AnimeGenreDTO,AnimeGenre> baseServices) 
+        public AnimeGenreController( IBaseServices<AnimeGenreDTO,AnimeGenre> baseServices) 
         {
-            this.mapper = mapper;
             this.baseServices = baseServices;
         }
         /// <summary>
@@ -32,9 +30,7 @@ namespace AnimeMarathonV1.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IEnumerable<AnimeGenreDTO>> Get()
         {
-            var list = await baseServices.GetList();    
-            var mapped = mapper.Map<IEnumerable<AnimeGenreDTO>>(list);
-            return mapped;
+            return await baseServices.GetList();
         }
         /// <summary>
         /// Crea una relación entre anime y género.
@@ -53,14 +49,7 @@ namespace AnimeMarathonV1.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<AnimeGenreDTO> CreateAG(AnimeGenreDTO animeGenreViewModel)
         {
-            var mapped = mapper.Map<AnimeGenre>(animeGenreViewModel);
-            if (mapped == null)
-                throw new Exception($"Entity could not be mapped.");
-
-            var entityDto = await baseServices.Create(animeGenreViewModel); 
-
-            var mappedViewModel = mapper.Map<AnimeGenreDTO>(entityDto);
-            return mappedViewModel;
+            return await baseServices.Create(animeGenreViewModel);
         }
 
         /// <summary>

@@ -60,26 +60,24 @@
             data.forEach(anime => {
                 const animeElement = document.createElement("div");
                 animeElement.classList.add("anime-item");
+
                 const linkElement = document.createElement("a");
                 linkElement.href = `/AnimeDetail?id=${anime.id}`;
 
                 const imgElement = document.createElement("img");
                 imgElement.src = anime.posterImage; 
                 imgElement.alt = `${anime.title} Poster`;
-                imgElement.style.width = "200px";
+                imgElement.style.maxWidth = "100%";
 
                 const titleElement = document.createElement("div");
                 titleElement.style.textAlign = "center";
                 titleElement.textContent = anime.title;
                 titleElement.style.fontSize = "16px"; 
-
+                
                 linkElement.appendChild(imgElement);
                 linkElement.appendChild(titleElement);
                 animeElement.appendChild(linkElement);
-
-                // Añade más elementos HTML según sea necesario para mostrar la información de cada anime
-
-                // Agregar el elemento del anime al contenedor de resultados
+                               
                 searchResultsContainer.appendChild(animeElement);
             });
            
@@ -90,7 +88,7 @@
             const data = await response.json();
             const errorMessageElement = document.getElementById("errorMessage");
             if (errorMessageElement) {
-                errorMessageElement.innerText = data.error; // Mostrar mensaje de error en caso de fallo
+                errorMessageElement.innerText = data.error; 
             }
             console.error("Error en la respuesta del servidor:", data);
         }

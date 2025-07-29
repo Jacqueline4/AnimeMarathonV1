@@ -10,11 +10,9 @@ namespace AnimeMarathonV1.Controllers
     [Route("[controller]")]
     public class CategoryController : ControllerBase
     {
-        private readonly IMapper mapper;
         private readonly ICategoryService categoryService;
-        public CategoryController(IMapper mapper, ICategoryService categoryService)
+        public CategoryController(ICategoryService categoryService)
         {
-            this.mapper = mapper;
             this.categoryService = categoryService;
         }
 
@@ -35,9 +33,7 @@ namespace AnimeMarathonV1.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IEnumerable<CategoryDTO>> GetCategoryByAnimeId(int animeId)
         {
-            var listByName = await categoryService.GetCategoryByAnimeId(animeId); 
-            var mappedByName = mapper.Map<IEnumerable<CategoryDTO>>(listByName);
-            return mappedByName;
+            return await categoryService.GetCategoryByAnimeId(animeId);
         }
         /// <summary>
         /// Obtiene una lista de todas las categorías.
@@ -52,10 +48,8 @@ namespace AnimeMarathonV1.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CategoryDTO>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IEnumerable<CategoryDTO>> GetCategories()
-        {      
-                var list = await categoryService.GetCategoryList();
-                var mapped = mapper.Map<IEnumerable<CategoryDTO>>(list);
-                return mapped;
+        {
+                return await categoryService.GetCategoryList();
         }
 
         /// <summary>
@@ -75,14 +69,7 @@ namespace AnimeMarathonV1.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<CategoryDTO> CreateCategory(CategoryDTO categoryViewModel)
         {
-            var mapped = mapper.Map<CategoryDTO>(categoryViewModel);
-            if (mapped == null)
-                throw new Exception($"Entity could not be mapped.");
-
-            var entityDto = await categoryService.Create(mapped);
-
-            var mappedViewModel = mapper.Map<CategoryDTO>(entityDto);
-            return mappedViewModel;
+            return await categoryService.Create(categoryViewModel);
         }
 
         /// <summary>
@@ -101,11 +88,7 @@ namespace AnimeMarathonV1.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task UpdateCategory(CategoryDTO categoryViewModel)
         {
-            var mapped = mapper.Map<CategoryDTO>(categoryViewModel);
-            if (mapped == null)
-                throw new Exception($"Entity could not be mapped.");
-
-            await categoryService.Update(mapped);
+            await categoryService.Update(categoryViewModel);
         }
 
         /// <summary>

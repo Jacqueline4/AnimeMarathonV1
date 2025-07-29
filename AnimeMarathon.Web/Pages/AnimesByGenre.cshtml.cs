@@ -20,9 +20,7 @@ namespace AnimeMarathon.Web.Pages
         public List<AnimeDTO> Animes { get; private set; }
         public List<GenreDTO> Genres { get; private set; } = new List<GenreDTO>();
         public string GenreName { get; private set; }
-        //public void OnGet()
-        //{
-        //}
+      
 
         public async Task OnGetAsync(String genreName)
         {

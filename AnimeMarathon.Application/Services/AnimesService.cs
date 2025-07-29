@@ -141,6 +141,7 @@ namespace AnimeMarathon.Application.Services
                     result.Add(model);
                 }
                 return result;
+
                 
             }
             catch (Exception ex)
@@ -164,13 +165,13 @@ namespace AnimeMarathon.Application.Services
 
         public async Task Update(AnimeDTO anime)
         {
-            ValidateAnimeIfNotExist(anime);
+            //ValidateAnimeIfNotExist(anime);
 
             var editAnime = await animeRepository.GetByIdAsync(anime.Id);
             if (editAnime == null)
                 throw new ApplicationException($"Entity could not be loaded.");
 
-            editAnime.Id = anime.Id;
+           
             editAnime.EndDate = anime.EndDate;
             editAnime.StartDate = anime.StartDate;
             editAnime.Description = anime.Description;

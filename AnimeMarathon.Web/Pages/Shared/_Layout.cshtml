@@ -40,11 +40,17 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                         </li>                      
                     </ul>
+                    <div class="container mt-3">
+                        <form id="searchForm" class="form-inline">
+                            <input id="searchInput" class="form-control mr-sm-2 w-75" type="search" placeholder="Buscar anime por nombre" aria-label="Buscar">
+                        </form>
+                    </div>
+                   
                     <ul class="navbar-nav ml-auto">
                         @if (!string.IsNullOrEmpty(userId))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/UserMenu">Mi Menú</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/UserMenu" style="width: 90px">Mi Menú</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="userMenuDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -52,7 +58,7 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="userMenuDropdown">
                                     <a class="dropdown-item" asp-page="/EditUser">Editar Perfil</a>
-                                    <form method="post" asp-page="/Logout">
+                                    <form method="post" asp-page="/Logout" id="logoutForm">
                                         <button type="submit" class="dropdown-item">Cerrar Sesión</button>
                                     </form>
                                 </div>
@@ -62,7 +68,7 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link btn btn-primary text-white" asp-page="/Login">Iniciar Sesión</a>
+                                <a class="nav-link btn btn-primary text-white" asp-page="/Login" style="width: 130px">Iniciar Sesión</a>
                             </li>
                         }
                     </ul>
@@ -70,13 +76,13 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container pt-5">
+        <main role="main" class="pb-3 mb-5">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted mt-5">
         <div class="container">
             &copy; 2024 - AnimeMarathon.Web 
         </div>
@@ -85,6 +91,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/search.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

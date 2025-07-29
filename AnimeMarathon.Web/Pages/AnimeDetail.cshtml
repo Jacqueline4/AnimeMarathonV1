@@ -123,17 +123,32 @@
                 <button type="submit" class="btn btn-primary">Enviar Comentario</button>
             </form>
         </div>
-        <div>
-            <h3>Comentarios:</h3>
-            <ul>
-                @foreach (var comment in Model.Comments)
-                {
-                    <li>@comment.DateTime Escrito por: @comment.User.Name -> @comment.CommentString</li>
+      
+        <div class="comment-section">
+            <h3 class="comment-section-header">
+                Comentarios:
+            </h3>
+           
+                <ul class="comment-list">
+                    @foreach (var comment in Model.Comments)
+                    {
+                        <li class="comment-item">
+                            <div class="card">
+                                <div class="card-header  d-flex justify-content-between align-items-center">
+                                    <span class="comment-author">@comment.User.Name</span>
+                                    <span class="comment-date ml-auto">@comment.DateTime</span>
+                                </div>
+                                <div class="card-body">
+                                    <p>@comment.CommentString</p>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
 
-                }
-            </ul>
-        </div>
-        <div>
+        @* <div class="text-center">
             <a href="/UserMenu" class="btn btn-primary">Volver al Menú</a>
-        </div>
+        </div> *@
     </div>

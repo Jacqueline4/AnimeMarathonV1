@@ -41,13 +41,12 @@ namespace AnimeMarathon.Application.Services
         }
         public async Task Update(CategoryDTO category)
         {
-            ValidateCategoryIfNotExist(category);
+            //ValidateCategoryIfNotExist(category);
 
             var editCategory = await categoryResository.GetByIdAsync(category.Id);
             if (editCategory == null)
                 throw new ApplicationException($"Entity could not be loaded.");
 
-            editCategory.Id = category.Id;
             editCategory.Name = category.Name;
 
             await categoryResository.UpdateAsync(editCategory);

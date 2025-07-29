@@ -21,9 +21,10 @@
     });
 
     if (response.ok) {
-        window.location.href = "/Login"; // Redireccionar al usuario a la página de inicio de sesión si el registro es exitoso
+        window.location.href = "/Login"; 
     } else {
+        document.getElementById("errorMessage").innerText = "Usuario o email duplicados";
         const data = await response.json();
-        document.getElementById("errorMessage").innerText = data.error; // Mostrar mensaje de error en caso de fallo de registro
+       
     }
 });

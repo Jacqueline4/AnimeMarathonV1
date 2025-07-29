@@ -14,6 +14,7 @@ namespace AnimeMarathon.Web.Pages
         {
             HttpContext.Session.Remove(SessionKeyName);
             HttpContext.Session.Remove(SessionKeyId);
+            //await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToPage("/Index");
         }
     }

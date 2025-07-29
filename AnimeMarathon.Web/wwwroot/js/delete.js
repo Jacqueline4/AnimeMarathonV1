@@ -9,21 +9,12 @@
         });
 
         if (response.ok) {
-            // Cerrar sesión después de eliminar la cuenta
-            const logoutResponse = await fetch("/Logout", {
-                method: 'POST'
-            });
-
-            if (logoutResponse.ok) {
-                // Redirigir al usuario a la página de inicio u otra página
-                window.location.href = "/";
-            } else {
-                // Manejar el caso de error al cerrar sesión
-                console.error("Error al cerrar sesión");
-            }
+            // Si la cuenta se elimina correctamente, invoca el formulario de cierre de sesión
+            document.getElementById('logoutForm').submit();
         } else {
-            // Manejar el caso de error al eliminar la cuenta
             console.error("Error al eliminar la cuenta");
+            alert("Error al eliminar la cuenta. Por favor, inténtelo de nuevo.");
         }
     }
 });
+

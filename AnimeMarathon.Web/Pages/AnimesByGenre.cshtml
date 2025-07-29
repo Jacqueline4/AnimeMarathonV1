@@ -16,31 +16,36 @@
             <div style="display: flex; flex-wrap: wrap;">
                 @foreach (var genre in Model.Genres)
                 {
-                    <div style="width: 200px; margin: 10px;">
+                            <div style="width: 200px; margin: 10px;">
 
-                        <a href="/AnimesByGenre?genreName=@genre.Name">
+                                <a href="/AnimesByGenre?genreName=@genre.Name">
 
-                            <div style="text-align: center;">@genre.Name</div>
-                        </a>
-                    </div>
+                                    <div style="text-align: center;">@genre.Name</div>
+                                </a>
+                            </div>
                 }
             </div>
         </div>
     </div>
+    @if (Model.Animes == null || Model.Animes.Count == 0)
+    {
+                <br />
+                <br />
+                <p><i>No se encontraron animes con el género @Model.GenreName</i></p>
+    }
+    else
+    {
 
-    <div style="display: flex; flex-wrap: wrap;">
-        @foreach (var anime in Model.Animes)
-        {
-            <div style="width: 200px; margin: 10px;">
-                <a href="/AnimeDetail?id=@anime.Id">
-                    <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" />
-                    <div style="text-align: center;">@anime.Title</div>
-                </a>
-            </div>
-        }
-   
-</div>
-    @* <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" /> *@
+            <div style="display: flex; flex-wrap: wrap;">
+            @foreach (var anime in Model.Animes)
+            {
+                            <div style="width: 200px; margin: 10px;">
+                                <a href="/AnimeDetail?id=@anime.Id">
+                                    <img src="@anime.posterImage" alt="@anime.Title Poster" style="max-width: 100%;" />
+                                    <div style="text-align: center;">@anime.Title</div>
+                                </a>
+                            </div>
+            }
+
+        </div>
+    }
