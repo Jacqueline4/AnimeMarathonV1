@@ -13,11 +13,9 @@ namespace AnimeMarathonV1.Controllers
     [Route("[controller]")]
     public class AnimeCategoryController : ControllerBase
     {
-        private readonly IMapper mapper;
         private readonly IBaseServices<AnimeCategoryDTO,AnimeCategory> baseServices ;
-        public AnimeCategoryController(IMapper mapper, IBaseServices<AnimeCategoryDTO,AnimeCategory> baseServices)
+        public AnimeCategoryController(IBaseServices<AnimeCategoryDTO,AnimeCategory> baseServices)
         {
-            this.mapper = mapper;
             this.baseServices= baseServices;
         }
         /// <summary>
@@ -34,9 +32,7 @@ namespace AnimeMarathonV1.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IEnumerable<AnimeCategoryDTO>> Get()
         {
-            var list = await baseServices.GetList();
-            var mapped = mapper.Map<IEnumerable<AnimeCategoryDTO>>(list);
-            return mapped;
+            return await baseServices.GetList();
         }
         /// <summary>
         /// Crea una nueva relación entre categoría y anime.
@@ -55,14 +51,7 @@ namespace AnimeMarathonV1.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<AnimeCategoryDTO> Create(AnimeCategoryDTO ViewModel)
         {
-            var mapped = mapper.Map<AnimeCategory>(ViewModel);
-            if (mapped == null)
-                throw new Exception($"Entity could not be mapped.");
-
-            var entityDto = await baseServices.Create(ViewModel);
-
-            var mappedViewModel = mapper.Map<AnimeCategoryDTO>(entityDto);
-            return mappedViewModel;
+            return await baseServices.Create(ViewModel);
         }
         /// <summary>
         /// Elimina una relación entre anime y categoría.

@@ -14,12 +14,10 @@ namespace AnimeMarathonV1.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IMapper mapper;
         private readonly IUserService userService;
 
-        public UserController(IMapper mapper, IUserService userService)
+        public UserController(IUserService userService)
         {
-            this.mapper = mapper;
             this.userService = userService;
         }
         /// <summary>
@@ -36,9 +34,7 @@ namespace AnimeMarathonV1.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IEnumerable<UserDTO>> Get()
         {
-            var list = await userService.GetUserList(); 
-            var mapped = mapper.Map<IEnumerable<UserDTO>>(list);
-            return mapped;
+            return await userService.GetUserList();
         }
 
         /// <summary>
@@ -58,16 +54,7 @@ namespace AnimeMarathonV1.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<UserDTO> GetUser(string userName) 
         {
-            if (string.IsNullOrWhiteSpace(userName))
-            {
-                var user = await userService.GetUserByName(userName);
-                var mapped = mapper.Map<UserDTO>(user);
-                return mapped;
-            }
-
-            var userByName = await userService.GetUserByName(userName);
-            var mappedByName = mapper.Map<UserDTO>(userByName);
-            return mappedByName;
+            return await userService.GetUserByName(userName);
         }
 
         /// <summary>
@@ -116,14 +103,7 @@ namespace AnimeMarathonV1.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<UserDTO> CreateUser(UserDTO userViewModel)
         {
-            var mapped = mapper.Map<User>(userViewModel);
-            if (mapped == null)
-                throw new Exception($"Entity could not be mapped.");
-
-            var entityDto = await userService.Create(userViewModel);
-
-            var mappedViewModel = mapper.Map<UserDTO>(entityDto);
-            return mappedViewModel;
+            return await userService.Create(userViewModel);
         }
 
         /// <summary>
@@ -144,10 +124,6 @@ namespace AnimeMarathonV1.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task UpdateUser(UserDTO userViewModel)
         {
-            var mapped = mapper.Map<User>(userViewModel);
-            if (mapped == null)
-                throw new Exception($"Entity could not be mapped.");
-
             await userService.Update(userViewModel);
         }
 

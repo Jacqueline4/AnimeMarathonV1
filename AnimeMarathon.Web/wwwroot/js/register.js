@@ -23,7 +23,7 @@
     if (response.ok) {
         window.location.href = "/Login"; 
     } else {
-        document.getElementById("errorMessage").innerText = "Usuario o contraseña duplicados";
+        document.getElementById("errorMessage").innerText = "Usuario o email duplicados";
         const data = await response.json();
        
     }

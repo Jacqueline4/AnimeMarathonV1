@@ -11,11 +11,9 @@ namespace AnimeMarathonV1.Controllers
     [Route("[controller]")]
     public class GenreController : ControllerBase
     {
-        private readonly IMapper mapper;
         private readonly IGenreService genreService;
-        public GenreController(IMapper mapper, IGenreService genreService)
+        public GenreController( IGenreService genreService)
         {
-            this.mapper = mapper;
             this.genreService= genreService;    
         }
         /// <summary>
@@ -32,9 +30,7 @@ namespace AnimeMarathonV1.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IEnumerable<GenreDTO>> Get()
         {
-            var list = await genreService.GetGenreList();   
-            var mapped = mapper.Map<IEnumerable<GenreDTO>>(list);
-            return mapped;
+            return await genreService.GetGenreList();
         }
 
         /// <summary>
@@ -53,10 +49,8 @@ namespace AnimeMarathonV1.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IEnumerable<GenreDTO>> GetGenre(int animeId)
-        {           
-            var listByName = await genreService.GetGenresByAnimeId(animeId);  
-            var mappedByName = mapper.Map<IEnumerable<GenreDTO>>(listByName);
-            return mappedByName;
+        {
+            return await genreService.GetGenresByAnimeId(animeId);
         }
 
         /// <summary>
@@ -76,14 +70,7 @@ namespace AnimeMarathonV1.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<GenreDTO> CreateGenre(GenreDTO genreViewModel)
         {
-            var mapped = mapper.Map<Genre>(genreViewModel);
-            if (mapped == null)
-                throw new Exception($"Entity could not be mapped.");
-
-            var entityDto = await genreService.Create(genreViewModel);
-
-            var mappedViewModel = mapper.Map<GenreDTO>(entityDto);
-            return mappedViewModel;
+            return await genreService.Create(genreViewModel);
         }
 
         /// <summary>
@@ -104,10 +91,6 @@ namespace AnimeMarathonV1.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task UpdateGenre(GenreDTO genreViewModel)
         {
-            var mapped = mapper.Map<Genre>(genreViewModel);
-            if (mapped == null)
-                throw new Exception($"Entity could not be mapped.");
-
             await genreService.Update(genreViewModel);
         }
 
